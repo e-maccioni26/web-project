@@ -1,0 +1,44 @@
+.project-page {
+    padding: 20px;
+}
+
+.project-page h1 {
+    color: #222;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.project-page-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.project-card {
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.project-card h2 {
+    color: #444;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.project-card p {
+    color: #666;
+    font-size: 16px;
+}

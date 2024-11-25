@@ -1,0 +1,83 @@
+.navigation {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #ba68c8;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    color: white;
+}
+
+.navigation-header {
+    margin-bottom: 2rem;
+}
+
+.navigation-header h2 {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.navigation-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navigation-links li {
+    margin-bottom: 1.5rem;
+}
+
+.navigation-links li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+.navigation-links li a .nav-icon {
+    margin-right: 1rem;
+}
+
+.navigation-links li a:hover {
+    color: #e1bee7;
+}
+
+.divider {
+    height: 2px;
+    background-color: #fff;
+    margin: 1.5rem 0;
+}
+
+.my-projects h3 {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+}
+
+.project-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.project-list li {
+    margin-bottom: 1rem;
+}
+
+.project-list li a {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s;
+}
+
+.active-link {
+    background-color: #ffffff;
+    color: #ba68c8 !important;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
