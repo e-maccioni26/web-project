@@ -54,4 +54,29 @@ L'application est également axée sur la collaboration, offrant des fonctionnal
 
 ---
 
+## Technologies utilisées 🧑🏽‍💻
+### Frontend
+- **React.js** :  
+  Pour la construction d’une interface utilisateur interactive et réactive.
+- **TailwindCSS/Bootstrap** *(au choix)* :  
+  Pour un design moderne et responsive.
+
+### Backend
+- **Node.js & Express.js** :  
+  Pour la gestion des routes API et de la logique métier.
+- **JWT (JSON Web Tokens)** :  
+  Pour l’authentification sécurisée des utilisateurs.
+  
+
+### Base de données
+- **SQLite** :  
+  pour un stockage léger et embarqué des données.
+
+---
+
+## Auteur
+Développé par [Groupe 2 / Maccioni Elone, Millon Felix, Ian Galmiche, Ilyès Boulkrinat].  
+
+
+  
 
