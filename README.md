@@ -77,6 +77,5 @@ L'application est également axée sur la collaboration, offrant des fonctionnal
 ## Auteur
 Développé par [Groupe 2 / Maccioni Elone, Millon Felix, Ian Galmiche, Ilyès Boulkrinat].  
 
-
   
 
