@@ -11,5 +11,5 @@ export const authController = {
     }
 
     return res.status(401).json({ error: "Invalid credentials" });
-  },
+  }
 };
