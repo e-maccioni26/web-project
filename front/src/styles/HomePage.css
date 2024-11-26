@@ -1,0 +1,42 @@
+.home-page {
+    padding: 20px;
+}
+
+.home-page h1 {
+    color: #222;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.task-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.task-card {
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    max-width: 300px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.task-card h2 {
+    color: #444;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.task-card p {
+    color: #666;
+    font-size: 16px;
+}
