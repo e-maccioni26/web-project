@@ -1,0 +1,70 @@
+.project-detail-page {
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.project-detail-page h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.project-detail-page p {
+    font-size: 20px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.task-columns {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.task-column {
+    flex: 1;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 300px;
+    /* Ajoutez une hauteur minimale pour les colonnes */
+}
+
+.task-item {
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+}
+
+.task-column h3 {
+    color: #444;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.task-column hr {
+    border: none;
+    border-bottom: 2px solid #00bcd4;
+    margin-bottom: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #00bcd4;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

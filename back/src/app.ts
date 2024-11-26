@@ -1,13 +1,14 @@
-import express, { Application, Request, Response } from 'express';
+import express from "express";
+import cors from "cors";
+import authRoutes from "./modules/auth/auth.routes";
+import { errorHandler } from "./utils/errorHandler";
 
-const app: Application = express();
+const app = express();
 
-// Middlewares
 app.use(express.json());
 
-// Routes
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript + Express!');
-});
+app.use(cors());
+
+app.use(errorHandler);
 
 export default app;
