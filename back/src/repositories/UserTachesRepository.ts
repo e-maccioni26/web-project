@@ -1,14 +1,8 @@
 import UsersTaches from "../models/UsersTaches";
 
 class UserTacheRepository {
-  async create(userId: number, data: any) {
-    const userTache = {
-        userId,
-        tacheId: data.tacheId,
-        date: data.date,
-        status: data.status,
-    }
-    return await UsersTaches.create(userTache);
+  async create(data: any) {
+    return await UsersTaches.create(data);
   }
 
   async findAll(filters: any = {}) {
