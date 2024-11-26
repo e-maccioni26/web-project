@@ -9,5 +9,4 @@ router.post("/login", authController.login);
 router.get("/verify", authMiddleware, (req, res) => {
   res.json({ message: "You are authorized", user: req.user });
 });
-
 export default router;
