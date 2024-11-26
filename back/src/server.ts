@@ -27,13 +27,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
-    await User.sync();
-    await Project.sync();
-    await Tache.sync();
-    await Tag.sync();
-    await UsersTaches.sync();
-    await TachesTags.sync();
-    await UsersProjects.sync();
 
 
     console.log("Connection has been established successfully.");
