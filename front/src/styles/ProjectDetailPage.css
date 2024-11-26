@@ -32,6 +32,17 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 300px;
+    /* Ajoutez une hauteur minimale pour les colonnes */
+}
+
+.task-item {
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: grab;
 }
 
 .task-column h3 {

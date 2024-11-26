@@ -11,7 +11,12 @@ const ProjectPage: React.FC = () => {
 
   return (
     <div className="project-page">
-      <h1>Bienvenue {"{User}"}</h1>
+      <div className="project-page-header">
+        <h1>Bienvenue {"{User}"}</h1>
+        <Link to="/add-project" className="new-project-button">
+          Nouveau Projet
+        </Link>
+      </div>
       <p>Voici votre espace utilisateur. Choisissez un projet :</p>
       <div className="project-page-list">
         {projects.map((project) => (

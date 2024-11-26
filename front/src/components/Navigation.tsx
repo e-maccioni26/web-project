@@ -40,8 +40,8 @@ const Navigation: React.FC = () => {
       </ul>
       {isProjectPage && (
         <>
-          <div className="divider"></div>
           <div className="my-projects">
+          <div className="divider"></div>
             <h3>
               <FaFolder className="nav-icon" /> My Project
             </h3>

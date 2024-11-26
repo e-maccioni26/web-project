@@ -1,5 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import {
+  DndContext,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
 import '../styles/ProjectDetailPage.css';
 
 const projects = [
@@ -8,7 +20,7 @@ const projects = [
   { id: 3, name: 'My Project 3', description: 'Description : Projet 3' },
 ];
 
-const tasks = [
+const tasksData = [
   { id: 1, projectId: 1, status: 'To do', name: 'Task 1: To do' },
   { id: 2, projectId: 1, status: 'To do', name: 'Task 2: To do' },
   { id: 3, projectId: 1, status: 'On Progress', name: 'Task 3: On Progress' },
@@ -20,44 +32,84 @@ const tasks = [
 
 const ProjectDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const project = projects.find((p) => p.id === parseInt(id || ''));
+  const projectId = parseInt(id || '', 10);
+  const project = projects.find((p) => p.id === projectId);
+  const [tasks, setTasks] = useState(tasksData.filter((task) => task.projectId === projectId));
+
+  useEffect(() => {
+    // Mettre à jour les tâches lorsque l'ID du projet change
+    setTasks(tasksData.filter((task) => task.projectId === projectId));
+  }, [projectId]);
 
   if (!project) {
     return <p>Projet non trouvé</p>;
   }
 
-  const projectTasks = tasks.filter((task) => task.projectId === project.id);
-  const toDoTasks = projectTasks.filter((task) => task.status === 'To do');
-  const onProgressTasks = projectTasks.filter((task) => task.status === 'On Progress');
-  const doneTasks = projectTasks.filter((task) => task.status === 'Done');
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    if (active.id !== over.id) {
+      setTasks((items) => {
+        const oldIndex = items.findIndex((item) => item.id === parseInt(active.id));
+        const newIndex = items.findIndex((item) => item.id === parseInt(over.id));
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
+  const updateTaskStatus = (taskId: number, newStatus: string) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, status: newStatus } : task
+      )
+    );
+  };
+
+  const getTasksByStatus = (status: string) => tasks.filter((task) => task.status === status);
 
   return (
-    <div className="project-detail-page">
+    <div key={projectId} className="project-detail-page">
       <h1>Bienvenue {'{User}'}</h1>
       <p>Vous avez choisi : {project.name}</p>
-      <div className="task-columns">
-        <div className="task-column">
-          <h3>To do</h3>
-          <hr />
-          {toDoTasks.map((task) => (
-            <p key={task.id}>{task.name}</p>
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <div className="task-columns">
+          {['To do', 'On Progress', 'Done'].map((status) => (
+            <SortableContext
+              items={getTasksByStatus(status).map((task) => task.id.toString())}
+              strategy={verticalListSortingStrategy}
+              key={status}
+            >
+              <div
+                className="task-column"
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  const taskId = parseInt(e.dataTransfer.getData('text/plain'));
+                  updateTaskStatus(taskId, status);
+                }}
+              >
+                <h3>{status}</h3>
+                <hr />
+                {getTasksByStatus(status).map((task) => (
+                  <div
+                    key={task.id}
+                    id={task.id.toString()}
+                    className="task-item"
+                    draggable
+                    onDragStart={(e) => e.dataTransfer.setData('text/plain', task.id.toString())}
+                  >
+                    {task.name}
+                  </div>
+                ))}
+              </div>
+            </SortableContext>
           ))}
         </div>
-        <div className="task-column">
-          <h3>On Progress</h3>
-          <hr />
-          {onProgressTasks.map((task) => (
-            <p key={task.id}>{task.name}</p>
-          ))}
-        </div>
-        <div className="task-column">
-          <h3>Done</h3>
-          <hr />
-          {doneTasks.map((task) => (
-            <p key={task.id}>{task.name}</p>
-          ))}
-        </div>
-      </div>
+      </DndContext>
       <Link to="/projects" className="back-link">Retour aux projets</Link>
     </div>
   );

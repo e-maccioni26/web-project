@@ -9,12 +9,13 @@ import ProjectDetailPage from './pages/ProjectDetailPage';
 import './App.css';
 import Navigation from './components/Navigation';
 import TaskDetailPage from './pages/TaskDetailPage';
+import AddTaskPage from './pages/AddTaskPage';
+import AddProjectPage from './pages/AddProjectPage';
 
 const App: React.FC = () => {
   return (
     <Router>
       <div className="app-container">
-        {/* Afficher la barre de navigation uniquement si l'utilisateur n'est pas sur les pages Login ou Register */}
         <Routes>
           <Route
             path="/login"
@@ -31,7 +32,6 @@ const App: React.FC = () => {
                 <Navigation />
                 <div className="content-wrapper">
                   <Routes>
-                    {/* Routes protégées avec PrivateRoute */}
                     <Route
                       path="/"
                       element={
@@ -40,6 +40,7 @@ const App: React.FC = () => {
 
                       }
                     />
+                    <Route path="/add-task" element={<AddTaskPage />} />
                     <Route path="/tasks/:id" element={<TaskDetailPage />} />
                     <Route
                       path="/projects"
@@ -47,6 +48,14 @@ const App: React.FC = () => {
 
                         <ProjectPage />
 
+                      }
+                    />
+                    <Route
+                      path="/add-project"
+                      element={
+                     
+                          <AddProjectPage />
+                        
                       }
                     />
                     <Route path="/projects/:id" element={<ProjectDetailPage />} />
