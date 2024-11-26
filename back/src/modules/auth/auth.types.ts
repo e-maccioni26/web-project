@@ -4,4 +4,6 @@ export interface User {
     email: string;
     mot_de_passe: string;
     date_creation: string;
+    projects: number[],
+    tasks: number[]
 }
