@@ -19,20 +19,14 @@ app.use(router);
 app.use("/auth", authRoutes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, async () => {
-  try {
-    await sequelize.authenticate();
-    await User.sync();
-    await Project.sync();
-    await Tache.sync();
-    await Tag.sync();
-    await UsersTaches.sync();
-    await TachesTags.sync();
-    await UsersProjects.sync();
 
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database");
-  }
-  await sequelize.sync();  console.log(`Server is running on http://localhost:${PORT}`);
+sequelize.authenticate().then(() => {
+  console.log("Connection has been established successfully.");
+  sequelize.sync();
+  app.listen(PORT, () => {
+    Project.findAll();
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}).catch((error) => {
+  console.error('Unable to connect to the database:', error);
 });
