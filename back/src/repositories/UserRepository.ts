@@ -13,6 +13,10 @@ class UserRepository {
     return await User.findByPk(id);
   }
 
+  async findOneUser(filters: any = {}) {
+    return await User.findOne({where: filters});
+  }
+
   async updateUser(id: number, data: any) {
     return await User.update(data, { where: { id } });
   }
