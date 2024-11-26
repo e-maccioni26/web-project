@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { authService } from "./auth.service";
+import Security from "../../config/encrypt"
 export const authController = {
   login: async (req: Request, res: Response): Promise<Response> => {
     const { email, mot_de_passe } = req.body;
-    console.log(typeof(email))
+
     if(typeof(email) !== "string"){
       return res.status(400).json({ error: "type error : email must be a string" });
     }
@@ -14,7 +15,13 @@ export const authController = {
     if (!userData) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    const token = authService.generateToken({ email });
+    const id = userData.id
+    const encryptedId = Security.encrypt(id.toString())
+
+    const token = authService.generateToken({
+      email,
+      id: encryptedId
+    });
     return res.json({ token });
   },
   register: async (req: Request, res: Response): Promise<Response> => {
