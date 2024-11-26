@@ -35,9 +35,9 @@ const App: React.FC = () => {
                     <Route
                       path="/"
                       element={
-
-                        <HomePage />
-
+                        <PrivateRoute>
+                          <HomePage />
+                        </PrivateRoute>
                       }
                     />
                     <Route path="/add-task" element={<AddTaskPage />} />
@@ -45,22 +45,22 @@ const App: React.FC = () => {
                     <Route
                       path="/projects"
                       element={
-
-                        <ProjectPage />
-
+                        <PrivateRoute>
+                          <ProjectPage />
+                        </PrivateRoute>
                       }
                     />
                     <Route
                       path="/add-project"
                       element={
-                     
+                        <PrivateRoute>
                           <AddProjectPage />
-                        
+                        </PrivateRoute>
                       }
                     />
                     <Route path="/projects/:id" element={<ProjectDetailPage />} />
-                    {/* Route catch-all pour rediriger vers /login si l'URL est invalide
-                    <Route path="*" element={<Navigate to="/login" />} /> */}
+                    {/* Route catch-all pour rediriger vers /login si l'URL est invalide */}
+                    <Route path="*" element={<Navigate to="/login" />} />
                   </Routes>
                 </div>
               </>
