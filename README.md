@@ -1,4 +1,4 @@
-# Gestionnaire de Tâches Collaboratif
+# Gestionnaire de Tâches Collaboratif ✅
 
 ---
 
@@ -45,8 +45,6 @@ L'application est également axée sur la collaboration, offrant des fonctionnal
   Les utilisateurs recevront des notifications par email pour :  
   - Les nouvelles attributions de tâches.
   - Les modifications apportées à leurs tâches.
-  - Les rappels avant les échéances.  
-  *(Service utilisé : [Ethereal.email](https://ethereal.email/))*
 
 - **Collaboration en temps réel** :  
   - Les utilisateurs peuvent travailler simultanément sur des tâches partagées.
