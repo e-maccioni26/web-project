@@ -1,4 +1,6 @@
 import UsersTaches from "../models/UsersTaches";
+import Tache from "../models/Tache";
+import User from "../models/User";
 
 class UserTacheRepository {
   async create(data: any) {
@@ -6,7 +8,9 @@ class UserTacheRepository {
   }
 
   async findAll(filters: any = {}) {
-    return await UsersTaches.findAll({ where: filters });
+    return await UsersTaches.findAll({
+      include: [{model: Tache}]
+    });
   }
 
   async findById(id: number) {

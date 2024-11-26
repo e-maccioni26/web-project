@@ -25,6 +25,10 @@ UsersTaches.init(
 User.belongsToMany(Tache, { through: UsersTaches });
 Tache.belongsToMany(User, { through: UsersTaches });
 
+
+UsersTaches.belongsTo(Tache, { foreignKey: 'TacheId' });
+UsersTaches.belongsTo(User, { foreignKey: 'UserId' });
+
 UsersTaches.sync();
 
 export default UsersTaches;
