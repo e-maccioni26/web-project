@@ -1,12 +1,16 @@
 import express from 'express';
-import User from '../models/User';
+import UserRoutes from './UserRoutes';
+import ProjectRoutes from './ProjectRoutes';
+import TacheRoutes from './TacheRoutes';
 
 const router = express.Router();
 
+router.use('/users', UserRoutes);
+router.use('/projects', ProjectRoutes);
+router.use('/taches', TacheRoutes);
+
 router.get('/', async (req, res) => {
-      const myUsers = await User.findAll();
-      console.log(myUsers);
-    res.send(myUsers);
+    res.send('Hello World!');
 });
 
 export default router;
