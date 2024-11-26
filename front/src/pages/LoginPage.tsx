@@ -12,9 +12,10 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/login', {
+      // Envoyer la requête de connexion vers le backend
+      const response = await axios.post('http://localhost:3000/auth/login', {
         email,
-        mdp: password,
+        mot_de_passe: password,
       });
 
       // Stocker le token JWT dans le localStorage

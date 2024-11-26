@@ -1,9 +1,39 @@
-import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/Navigation.css';
-import { FaHome, FaProjectDiagram, FaPlusCircle, FaFolder } from 'react-icons/fa';
+import { FaHome, FaProjectDiagram, FaPlusCircle, FaFolder, FaSignOutAlt } from 'react-icons/fa';
 
 const Navigation: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const response = await axios.get('http://localhost:3000/auth/verify', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setIsLoggedIn(response.status === 200);
+        }
+      } catch (error) {
+        setIsLoggedIn(false);
+      }
+    };
+
+    verifyUser();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/login');
+  };
+
   const projects = [
     { id: 1, name: 'My Project 1' },
     { id: 2, name: 'My Project 2' },
@@ -41,7 +71,7 @@ const Navigation: React.FC = () => {
       {isProjectPage && (
         <>
           <div className="my-projects">
-          <div className="divider"></div>
+            <div className="divider"></div>
             <h3>
               <FaFolder className="nav-icon" /> My Project
             </h3>
@@ -56,6 +86,11 @@ const Navigation: React.FC = () => {
             </ul>
           </div>
         </>
+      )}
+      {isLoggedIn && (
+        <button className="logout-button" onClick={handleLogout}>
+          <FaSignOutAlt className="nav-icon" /> Logout
+        </button>
       )}
     </nav>
   );

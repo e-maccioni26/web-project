@@ -5,7 +5,6 @@ import '../styles/RegisterPage.css';
 
 const RegisterPage: React.FC = () => {
   const [nom, setNom] = useState<string>('');
-  const [prenom, setPrenom] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
@@ -14,17 +13,19 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      // Envoyer la requête d'inscription
-      await axios.post('/api/register', {
+      // Envoyer la requête d'inscription vers le backend
+      const response = await axios.post('http://localhost:3000/auth/register', {
         nom,
-        prenom,
         email,
-        mdp: password,
+        mot_de_passe: password,
       });
 
-      // Rediriger vers la page de login après une inscription réussie
-      alert('Inscription réussie, vous pouvez maintenant vous connecter.');
-      navigate('/login');
+      // Stocker le token JWT dans le localStorage
+      localStorage.setItem('token', response.data.token);
+
+      // Rediriger vers la page d'accueil après une inscription réussie
+      alert('Inscription réussie, vous êtes maintenant connecté.');
+      navigate('/');
     } catch (error) {
       console.error('Erreur lors de l\'inscription :', error);
       alert('Erreur lors de la création du compte. Veuillez réessayer.');
@@ -41,15 +42,6 @@ const RegisterPage: React.FC = () => {
             type="text"
             value={nom}
             onChange={(e) => setNom(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Prénom :</label>
-          <input
-            type="text"
-            value={prenom}
-            onChange={(e) => setPrenom(e.target.value)}
             required
           />
         </div>
