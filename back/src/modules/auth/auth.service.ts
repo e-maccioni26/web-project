@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { jwtConfig } from "../../config/jwtConfig";
 import User from "../../models/User";
+import UserAttributes from "../../models/User";
 
 class AuthService {
     generateToken(payload: object): string {
@@ -17,7 +18,7 @@ class AuthService {
             return null;
         }
     }
-    async checkUserExists(email: string): Promise<Object | null>{
+    async checkUserExists(email: string): Promise<UserAttributes | null>{
         try{
             const user = await User.findOne(
                 {
@@ -26,7 +27,7 @@ class AuthService {
                 }
                 }
             )
-            const userdata = user?.dataValues
+            const userdata = user?.dataValues as UserAttributes
             if (userdata) {
                 return userdata
             }
@@ -36,7 +37,7 @@ class AuthService {
             return null
         }
     }
-    async checkUserCredentials(email: string, mot_de_passe: string): Promise<boolean>{
+    async checkUserCredentials(email: string, mot_de_passe: string): Promise<UserAttributes | null>{
         const user = await User.findOne(
             {
               where: {
@@ -45,18 +46,18 @@ class AuthService {
               }
             }
           )
-          const userdata = user?.dataValues
+          const userdata = user?.dataValues as UserAttributes
           if (userdata) {
-            return true
+            return userdata
           }
-          return false
+          return null
     }
     async createUser(
         name: string,
         email: string,
         mot_de_passe: string
-    ){
-        await User.create(
+    ): Promise<UserAttributes | null>{
+        const user = await User.create(
             {
               nom: name,
               email: email,
@@ -64,6 +65,11 @@ class AuthService {
               date_creation: new Date()
             }
         )
+        const userdata = user?.dataValues as UserAttributes
+        if (userdata) {
+            return userdata
+          }
+        return null
     }
 }
 
