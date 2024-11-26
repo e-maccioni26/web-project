@@ -67,6 +67,30 @@ class UserController {
       res.status(500).json({ error: error.message });
     }
   }
+
+  async addUserTache(req: Request, res: Response) {
+    try {
+      const user = await UserService.addUserTache(
+        Number(req.params.userId),
+        req.body
+      );
+      res.status(201).json(user);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async removeUserTache(req: Request, res: Response) {
+    try {
+      await UserService.removeUserTache(
+        Number(req.params.userId),
+        Number(req.params.tacheId)
+      );
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(404).json({ error: error.message });
+    }
+  }
 }
 
 export default new UserController();

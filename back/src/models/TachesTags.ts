@@ -4,12 +4,18 @@ import Tag from './Tag';
 import Tache from './Tache';
 
 class TachesTags extends Model {
+  public id!: number;
   public tag_id!: number;
   public tache_id!: number;
 }
 
 TachesTags.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     tag_id: {
       type: DataTypes.INTEGER,
       references: {
