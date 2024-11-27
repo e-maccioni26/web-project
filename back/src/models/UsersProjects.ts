@@ -3,6 +3,14 @@ import sequelize from '../config/database';
 import User from './User';
 import Project from './Project';
 
+interface UserProjectUser {
+  id: number;
+  nom: string;
+  email: string;
+  mot_de_passe: string;
+  date_creation: Date;
+}
+
 class UsersProjects extends Model {
   public userId!: number;
   public projectId!: number;
@@ -25,6 +33,9 @@ UsersProjects.init(
 User.belongsToMany(Project, { through: UsersProjects });
 Project.belongsToMany(User, { through: UsersProjects });
 
-UsersProjects.sync();
+UsersProjects.belongsTo(Project, { foreignKey: 'ProjectId' });
+UsersProjects.belongsTo(User, { foreignKey: 'UserId' });
+
+
 
 export default UsersProjects;
