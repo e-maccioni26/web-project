@@ -1,5 +1,6 @@
 import TachesTags from "../models/TachesTags";
 import Tache from "../models/Tache";
+import Tag from "../models/Tag"
 
 class TacheTagRepository {
   async createTacheTag(data: any) {
@@ -32,6 +33,19 @@ class TacheTagRepository {
     if(tagOnTask.length == 0) return false
     return true
   }
+
+  async getTags(id: number) {
+    const taches = await TachesTags.findAll({
+      where: {TacheId: id},
+      include: [{
+        model: Tag
+      }],
+      attributes: [],
+    }) as any[];
+    const formatedTags = taches.map(tache => tache.Tag.dataValues)
+    return formatedTags
+  }
+
 
   async addTags(id: number, tags: number[]) {
     const tasktags = tags.map(tagId => ({
