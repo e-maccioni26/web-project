@@ -2,7 +2,6 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database';
 import User from './User';
 import Tache from './Tache';
-import Project from './Project';
 
 class UsersTaches extends Model {
   public userId!: number;
