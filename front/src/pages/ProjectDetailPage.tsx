@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   DndContext,
   closestCenter,
@@ -35,6 +35,7 @@ const ProjectDetailPage: React.FC = () => {
   const projectId = parseInt(id || '', 10);
   const project = projects.find((p) => p.id === projectId);
   const [tasks, setTasks] = useState(tasksData.filter((task) => task.projectId === projectId));
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Mettre à jour les tâches lorsque l'ID du projet change
@@ -74,6 +75,9 @@ const ProjectDetailPage: React.FC = () => {
 
   return (
     <div key={projectId} className="project-detail-page">
+      <button className="config-button" onClick={() => navigate(`/projects/${projectId}/config`)}>
+        Configurer le Projet
+      </button>
       <h1>Bienvenue {'{User}'}</h1>
       <p>Vous avez choisi : {project.name}</p>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>

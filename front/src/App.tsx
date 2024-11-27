@@ -11,6 +11,7 @@ import Navigation from './components/Navigation';
 import TaskDetailPage from './pages/TaskDetailPage';
 import AddTaskPage from './pages/AddTaskPage';
 import AddProjectPage from './pages/AddProjectPage';
+import ConfigProjectPage from './pages/ConfigProjectPage';
 
 const App: React.FC = () => {
   return (
@@ -59,6 +60,7 @@ const App: React.FC = () => {
                       }
                     />
                     <Route path="/projects/:id" element={<ProjectDetailPage />} />
+                    <Route path="/projects/:id/config" element={<ConfigProjectPage />} />
                     {/* Route catch-all pour rediriger vers /login si l'URL est invalide */}
                     <Route path="*" element={<Navigate to="/login" />} />
                   </Routes>

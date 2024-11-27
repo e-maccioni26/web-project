@@ -1,5 +1,6 @@
 .project-detail-page {
-    padding: 40px;
+    position: relative;
+    padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -67,4 +68,20 @@
 
 .back-link:hover {
     text-decoration: underline;
+}
+
+.config-button {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.config-button:hover {
+    background-color: #0056b3;
 }

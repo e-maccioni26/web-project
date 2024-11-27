@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/AddProjectPage.css';
 
 const AddProjectPage: React.FC = () => {
@@ -7,14 +8,25 @@ const AddProjectPage: React.FC = () => {
     const [projectDescription, setProjectDescription] = useState('');
     const navigate = useNavigate();
 
-    const handleCreateProject = (e: React.FormEvent) => {
+    const handleCreateProject = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // TODO: Add logic to create the project (e.g., send a request to backend API)
-        console.log('Creating project:', { projectName, projectDescription });
+        try {
+            // Envoyer la requête pour créer un projet au backend
+            await axios.post('http://localhost:3000/projects', {
+                nom: projectName,
+                description: projectDescription,
+            });
 
-        // Redirect to the project page after creating the project
-        navigate('/projects');
+            // Afficher un message de succès après la création du projet
+            alert('Projet créé avec succès.');
+
+            // Rediriger vers la page des projets après la création du projet
+            navigate('/projects');
+        } catch (error) {
+            console.error('Erreur lors de la création du projet :', error);
+            alert('Erreur lors de la création du projet. Veuillez réessayer.');
+        }
     };
 
     return (

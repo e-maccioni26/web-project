@@ -1,31 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/ProjectPage.css';
 
 const ProjectPage: React.FC = () => {
-  const projects = [
-    { id: 1, name: 'My Project 1', description: 'Description : Projet 1' },
-    { id: 2, name: 'My Project 2', description: 'Description : Projet 2' },
-    { id: 3, name: 'My Project 3', description: 'Description : Projet 3' },
-  ];
+  const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fonction pour récupérer les projets depuis l'API
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/projects');
+        setProjects(response.data);
+      } catch (err) {
+        setError('Erreur lors du chargement des projets. Veuillez réessayer.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   return (
     <div className="project-page">
       <div className="project-page-header">
-        <h1>Bienvenue {"{User}"}</h1>
+        <h1>Mes projets</h1>
         <Link to="/add-project" className="new-project-button">
           Nouveau Projet
         </Link>
       </div>
-      <p>Voici votre espace utilisateur. Choisissez un projet :</p>
-      <div className="project-page-list">
-        {projects.map((project) => (
-          <Link to={`/projects/${project.id}`} key={project.id} className="project-card">
-            <h2>{project.name}</h2>
-            <p>{project.description}</p>
-          </Link>
-        ))}
-      </div>
+      <p>Choisissez un projet :</p>
+      
+      {loading ? (
+        <p>Chargement des projets...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <div className="project-page-list">
+          {projects.map((project) => (
+            <Link to={`/projects/${project.id}`} key={project.id} className="project-card">
+              <h2>{project.nom}</h2>
+              <p>Date de création : {new Date(project.date_creation).toLocaleDateString()}</p>
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
