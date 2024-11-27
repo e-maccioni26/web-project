@@ -20,7 +20,8 @@ class UserService {
   async updateUser(id: number, data: any) {
     const user = await UserRepository.findUserById(id);
     if (!user) throw new Error("Utilisateur introuvable");
-    return await UserRepository.updateUser(id, data);
+    await UserRepository.updateUser(id, data);
+    return await UserRepository.findUserById(id);
   }
 
   async deleteUser(id: number) {
@@ -29,24 +30,12 @@ class UserService {
     return await UserRepository.deleteUser(id);
   }
   async getUserTaches(id: number) {
-    return await UserTachesRepository.findAll({ UserId: id });
+    return await UserTachesRepository.getUserTaches(id);
   }
   async getUserProjects(id: number) {
-    return await UserProjectRepository.findAll({ UserId: id });
+    return await UserProjectRepository.getUserProjects(id);
   }
 
-  async addUserTache(userId: number, data: any) {
-    const userTache = {
-     ...data, UserId: userId
-    }
-    return await UserTachesRepository.create(data);
-  }
-
-  async removeUserTache(userId: number, tacheId: number) {
-    const userTache = await UserTachesRepository.findAll({ UserId: userId, TacheId: tacheId });
-    if (!userTache) throw new Error("Tâche introuvable");
-    return await UserTachesRepository.delete(Number(userTache[0].id));
-  }
 }
 
 export default new UserService();
