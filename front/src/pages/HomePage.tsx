@@ -4,34 +4,46 @@ import '../styles/HomePage.css';
 import axios from 'axios';
 
 const HomePage: React.FC = () => {
-  const [myTasks, setMyTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/taches');
+      setTasks(response.data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des tâches :', error);
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3000/users/taches/?userId=1') // mettre le bon id user
-      .then((response) => {
-        setMyTasks(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    fetchTasks(); 
+  }, []);
+
+  useEffect(() => {
+    fetchTasks();
+    // Récupérer l'email de l'utilisateur connecté depuis le localStorage
+    const email = localStorage.getItem('userEmail');
+    setUserEmail(email);
   }, []);
 
   return (
     <div className="home-page">
-      <h1>Bienvenue {"{User}"}</h1>
+      <Link to="/add-task" className="add-task-button">Ajouter une nouvelle tâche</Link>
+      <h1>Bienvenue {userEmail ? userEmail : "Utilisateur"}</h1>
       <p>Voici la liste de toutes vos tâches :</p>
       <div className="task-list">
-        {myTasks.map((task) => (
+        {tasks.map((task) => (
           <Link
-            to={`/tasks/${task.Tache.id}`}
-            key={task.Tache.id}
+            to={`/tasks/${task.id}`}
+            key={task.id}
             className="task-card"
           >
-            <h2>{task.Tache.titre}</h2>
-            <p>{task.Tache.description}</p>
+            <h2>{task.titre}</h2>
+            <p>{task.description}</p>
             <p>
-              <strong>Status :</strong> {task.Tache.statut}
+              <strong>Status :</strong> {task.statut}
             </p>
           </Link>
         ))}
