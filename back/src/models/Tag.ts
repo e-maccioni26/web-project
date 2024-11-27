@@ -47,6 +47,5 @@ Tag.init(
   }
 );
 
-Tag.sync();
 
 export default Tag;

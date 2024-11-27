@@ -37,6 +37,4 @@ Project.init(
   }
 );
 
-Project.sync();
-
 export default Project;

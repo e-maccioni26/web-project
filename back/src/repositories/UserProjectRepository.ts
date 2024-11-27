@@ -1,4 +1,5 @@
 import UsersProjects from "../models/UsersProjects";
+import User from "../models/User";
 
 class UserProjectRepository {
     async createUserProject(userId: number, projectId: number) {
@@ -13,6 +14,17 @@ class UserProjectRepository {
             where: {
                 UserId: userId
             }
+        });
+    }
+
+    async getProjectUsers(projectId: number) {
+        return await UsersProjects.findAll({
+            where: { ProjectId: projectId },
+            attributes: [],
+            include: [{
+                model: User,
+                attributes: ['id', 'nom', 'email', 'mot_de_passe', 'date_creation'],
+            }],
         });
     }
 

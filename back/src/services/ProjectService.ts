@@ -1,5 +1,5 @@
 import ProjectRepository from '../repositories/ProjectRepository';
-
+import UserProjectRepository from '../repositories/UserProjectRepository';
 class ProjectService {
   async createProject(data: any) {
     return await ProjectRepository.createProject(data);
@@ -13,6 +13,12 @@ class ProjectService {
     const project = await ProjectRepository.findProjectById(id);
     if (!project) throw new Error('Projet introuvable');
     return project;
+  }
+
+  async getProjectUsers(id: number) {
+    const users = await UserProjectRepository.getProjectUsers(id);
+    if (!users) throw new Error('Projet introuvable');
+    return users;
   }
 
   async updateProject(id: number, data: any) {
