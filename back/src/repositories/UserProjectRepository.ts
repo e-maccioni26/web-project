@@ -1,5 +1,6 @@
 import UsersProjects from "../models/UsersProjects";
 import User from "../models/User";
+import Project from "../models/Project";
 import { error } from "console";
 
 class UserProjectRepository {
@@ -11,22 +12,28 @@ class UserProjectRepository {
     }
 
     async getUserProjects(userId: number) {
-        return await UsersProjects.findAll({
-            where: {
-                UserId: userId
-            }
-        });
+        const projects = await UsersProjects.findAll({
+            where: { UserId: userId },
+            attributes: [],
+            include: [{
+                model: Project
+            }],
+        }) as any[];
+        const projectUsers = projects.map(project => project.Project.dataValues)
+        return projectUsers
     }
 
     async getProjectUsers(projectId: number) {
-        return await UsersProjects.findAll({
+        const projects = await UsersProjects.findAll({
             where: { ProjectId: projectId },
             attributes: [],
             include: [{
                 model: User,
                 attributes: ['id', 'nom', 'email', 'mot_de_passe', 'date_creation'],
             }],
-        });
+        }) as any[];
+        const projectUsers = projects.map(project => project.User.dataValues)
+        return projectUsers
     }
 
     async findAll(filters: any = {}) {

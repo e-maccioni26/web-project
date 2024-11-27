@@ -22,18 +22,6 @@ class TacheTagRepository {
     return await TachesTags.destroy({ where: { id } });
   }
 
-  async findTagsByProjectId(projectId: number) {
-    return await Tache.findAll({
-      where: { project_id: projectId },
-      include: [
-        {
-          model: TachesTags,
-          through: { attributes: [] },
-        },
-      ],
-    });
-  }
-
   async isTagOntask(id: number, tags: number[]){
     const tagOnTask = await TachesTags.findAll({
         where: {
