@@ -12,21 +12,33 @@ interface User {
 const ConfigProjectPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const projectId = parseInt(id || '', 10);
-    const [users, setUsers] = useState<User[]>([]);
+    const [projectUsers, setProjectUsers] = useState<User[]>([]);
+    const [allUsers, setAllUsers] = useState<User[]>([]);
     const [newUserEmail, setNewUserEmail] = useState<string>('');
 
     useEffect(() => {
         // Fetch users associated with the project
-        const fetchUsers = async () => {
+        const fetchProjectUsers = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/projects/${projectId}/users`);
-                setUsers(response.data);
+                setProjectUsers(response.data);
             } catch (error) {
-                console.error('Erreur lors de la récupération des utilisateurs:', error);
+                console.error('Erreur lors de la récupération des utilisateurs du projet:', error);
             }
         };
 
-        fetchUsers();
+        // Fetch all users
+        const fetchAllUsers = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/users');
+                setAllUsers(response.data);
+            } catch (error) {
+                console.error('Erreur lors de la récupération de tous les utilisateurs:', error);
+            }
+        };
+
+        fetchProjectUsers();
+        fetchAllUsers();
     }, [projectId]);
 
     const handleAddUser = async () => {
@@ -36,12 +48,12 @@ const ConfigProjectPage: React.FC = () => {
             });
             alert('Utilisateur ajouté avec succès');
             setNewUserEmail('');
-            // Refresh the users list
+            // Refresh the users list for the project
             const response = await axios.get(`http://localhost:3000/projects/${projectId}/users`);
-            setUsers(response.data);
+            setProjectUsers(response.data);
         } catch (error) {
-            console.error('Erreur lors de l\'ajout de l\'utilisateur:', error);
-            alert('Erreur lors de l\'ajout de l\'utilisateur. Veuillez réessayer.');
+            console.error("Erreur lors de l'ajout de l'utilisateur:", error);
+            alert("Erreur lors de l'ajout de l'utilisateur. Veuillez réessayer.");
         }
     };
 
@@ -52,7 +64,7 @@ const ConfigProjectPage: React.FC = () => {
             <div className="users-list">
                 <h2>Utilisateurs du Projet</h2>
                 <ul>
-                    {users.map((user) => (
+                    {projectUsers.map((user) => (
                         <li key={user.id}>{user.nom} ({user.email})</li>
                     ))}
                 </ul>
@@ -69,6 +81,14 @@ const ConfigProjectPage: React.FC = () => {
                     />
                     <button onClick={handleAddUser} className='add-user-button'>Ajouter</button>
                 </div>
+            </div>
+            <div className="all-users-list">
+                <h2>Tous les Utilisateurs</h2>
+                <ul>
+                    {allUsers.map((user) => (
+                        <li key={user.id}>{user.nom} ({user.email})</li>
+                    ))}
+                </ul>
             </div>
             <Link to={`/projects/${projectId}`} className="back-link">Retour au projet</Link>
         </div>
