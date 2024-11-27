@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import ProjectService from '../services/ProjectService';
+import Security from "../config/encrypt"
 
 class ProjectController {
   async createProject(req: Request, res: Response) {
@@ -55,6 +56,49 @@ class ProjectController {
       res.status(404).json({ error: error.message });
     }
   }
+
+  async addUsers(req: Request, res: Response) {
+    const { users } = req.body
+    if (!isStringArray(users)) {
+      res.status(400).json({ error: "users must be list of string ids" });
+      return
+    }
+    try {
+      const usersIds = users.map(user => decryptId(user));
+      await ProjectService.addUsers(Number(req.params.id), usersIds);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async removeUsers(req: Request, res: Response) {
+    const { users } = req.body
+    if (!isStringArray(users)) {
+      res.status(400).json({ error: "users must be list of string ids" });
+      return
+    }
+    try {
+      const usersIds = users.map(user => decryptId(user));
+      await ProjectService.removeUsers(Number(req.params.id), usersIds);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
 }
 
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every(item => typeof item === 'string');
+}
+
+function decryptId(encrypted: string): number{
+  const decrypted = Security.decrypt(encrypted)
+  if(typeof(decrypted) == "string"){
+    return parseInt(decrypted)
+  }else{
+    throw new Error("invalid ID");
+  }
+
+}
 export default new ProjectController();
