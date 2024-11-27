@@ -64,7 +64,7 @@ class ProjectController {
       return
     }
     try {
-      const usersIds = users.map(user => decryptId(user));
+      const usersIds = users.map(user => Security.decryptId(user));
       await ProjectService.addUsers(Number(req.params.id), usersIds);
       res.status(204).send();
     } catch (error: any) {
@@ -79,7 +79,7 @@ class ProjectController {
       return
     }
     try {
-      const usersIds = users.map(user => decryptId(user));
+      const usersIds = users.map(user => Security.decryptId(user));
       await ProjectService.removeUsers(Number(req.params.id), usersIds);
       res.status(204).send();
     } catch (error: any) {
@@ -92,13 +92,4 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every(item => typeof item === 'string');
 }
 
-function decryptId(encrypted: string): number{
-  const decrypted = Security.decrypt(encrypted)
-  if(typeof(decrypted) == "string"){
-    return parseInt(decrypted)
-  }else{
-    throw new Error("invalid ID");
-  }
-
-}
 export default new ProjectController();

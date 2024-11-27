@@ -1,6 +1,5 @@
 import UsersTaches from "../models/UsersTaches";
 import Tache from "../models/Tache";
-import User from "../models/User";
 
 class UserTacheRepository {
   async create(data: any) {
@@ -24,6 +23,34 @@ class UserTacheRepository {
   async delete(id: number) {
     return await UsersTaches.destroy({ where: { id } });
   }
+
+  async isUserInTache(id: number, usersIds: number[]){
+    const isUsersIn = await UsersTaches.findAll({
+        where: {
+          TacheId: id,
+          UserId: usersIds
+        }
+    })
+    if(isUsersIn.length == 0) return false
+    return true
+}
+
+async addUsers(id: number, usersIds: number[]) {
+    const usersProjects = usersIds.map(userId => ({
+      TacheId: id,
+        UserId: userId
+    }));
+    return await UsersTaches.bulkCreate(usersProjects);
+}
+
+async removeUsers(id: number, usersIds: number[]){
+    return await UsersTaches.destroy({
+        where: {
+          TacheId: id,
+          UserId: usersIds
+        }
+    });
+}
 }
 
 export default new UserTacheRepository();

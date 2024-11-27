@@ -33,29 +33,26 @@ class UserProjectRepository {
         return await UsersProjects.findAll({ where: filters });
     }
 
+    async isUserInProject(id: number, usersIds: number[]){
+        const isUsersIn = await UsersProjects.findAll({
+            where: {
+                ProjectId: id,
+                UserId: usersIds
+            }
+        })
+        if(isUsersIn.length == 0) return false
+        return true
+    }
+
     async addUsers(id: number, usersIds: number[]) {
         const usersProjects = usersIds.map(userId => ({
             ProjectId: id,
             UserId: userId
         }));
-        const isUsersIn = await UsersProjects.findAll({
-            where: {
-                ProjectId: id,
-                UserId: usersIds
-            }
-        })
-        if(isUsersIn.length > 0) throw new Error("User already in project")
         return await UsersProjects.bulkCreate(usersProjects);
     }
     
     async removeUsers(id: number, usersIds: number[]){
-        const isUsersIn = await UsersProjects.findAll({
-            where: {
-                ProjectId: id,
-                UserId: usersIds
-            }
-        })
-        if(isUsersIn.length == 0) throw new Error("User not in project")
         return await UsersProjects.destroy({
             where: {
                 ProjectId: id,
