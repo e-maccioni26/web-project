@@ -19,13 +19,28 @@ const LoginPage: React.FC = () => {
       });
 
       // Stocker le token JWT dans le localStorage
-      localStorage.setItem('token', response.data.token);
+      const token = response.data.token;
+      localStorage.setItem('token', token);
 
-      // Rediriger l'utilisateur vers la page d'accueil
-      navigate('/');
+      // Vérifier la validité du token
+      const verifyResponse = await axios.get('http://localhost:3000/auth/verify', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Si la vérification est réussie, rediriger l'utilisateur vers la page d'accueil
+      if (verifyResponse.status === 200) {
+        navigate('/');
+      } else {
+        // Si le token est invalide, le supprimer et rediriger vers la page de connexion
+        localStorage.removeItem('token');
+        alert('Token invalide. Veuillez vous reconnecter.');
+        navigate('/login');
+      }
     } catch (error) {
-      console.error('Erreur de connexion:', error);
-      alert('Email ou mot de passe incorrect');
+      console.error('Erreur de connexion ou de vérification du token:', error);
+      alert('Email ou mot de passe incorrect, ou token invalide. Veuillez réessayer.');
     }
   };
 

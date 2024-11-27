@@ -93,3 +93,7 @@
     color: #007c91;
     text-decoration: underline;
 }
+
+ul{
+    list-style-type: none;
+}

@@ -34,6 +34,34 @@ class TacheTagRepository {
     });
   }
 
+  async isTagOntask(id: number, tags: number[]){
+    const tagOnTask = await TachesTags.findAll({
+        where: {
+          TacheId: id,
+          TagId: tags
+        }
+    })
+    if(tagOnTask.length == 0) return false
+    return true
+  }
+
+  async addTags(id: number, tags: number[]) {
+    const tasktags = tags.map(tagId => ({
+      TacheId: id,
+      TagId: tagId
+    }));
+    return await TachesTags.bulkCreate(tasktags);
+  }
+
+  async removeTags(id: number, tags: number[]){
+      return await TachesTags.destroy({
+          where: {
+            TacheId: id,
+            TagId: tags
+          }
+      });
+  }
+
 }
 
 export default new TacheTagRepository();

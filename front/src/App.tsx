@@ -12,20 +12,16 @@ import TaskDetailPage from './pages/TaskDetailPage';
 import AddTaskPage from './pages/AddTaskPage';
 import AddProjectPage from './pages/AddProjectPage';
 import ConfigProjectPage from './pages/ConfigProjectPage';
+import UserVerification from './components/UserVerification';
 
 const App: React.FC = () => {
   return (
     <Router>
+      <UserVerification />
       <div className="app-container">
         <Routes>
-          <Route
-            path="/login"
-            element={<LoginPage />}
-          />
-          <Route
-            path="/register"
-            element={<RegisterPage />}
-          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route
             path="*"
             element={
