@@ -11,20 +11,17 @@ import Navigation from './components/Navigation';
 import TaskDetailPage from './pages/TaskDetailPage';
 import AddTaskPage from './pages/AddTaskPage';
 import AddProjectPage from './pages/AddProjectPage';
+import ConfigProjectPage from './pages/ConfigProjectPage';
+import UserVerification from './components/UserVerification';
 
 const App: React.FC = () => {
   return (
     <Router>
+      <UserVerification />
       <div className="app-container">
         <Routes>
-          <Route
-            path="/login"
-            element={<LoginPage />}
-          />
-          <Route
-            path="/register"
-            element={<RegisterPage />}
-          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route
             path="*"
             element={
@@ -59,6 +56,7 @@ const App: React.FC = () => {
                       }
                     />
                     <Route path="/projects/:id" element={<ProjectDetailPage />} />
+                    <Route path="/projects/:id/config" element={<ConfigProjectPage />} />
                     {/* Route catch-all pour rediriger vers /login si l'URL est invalide */}
                     <Route path="*" element={<Navigate to="/login" />} />
                   </Routes>

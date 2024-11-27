@@ -1,20 +1,45 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/AddProjectPage.css';
 
 const AddProjectPage: React.FC = () => {
     const [projectName, setProjectName] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
+    const [projectTag, setProjectTag] = useState(''); // Nouveau champ pour le tag du projet
     const navigate = useNavigate();
 
-    const handleCreateProject = (e: React.FormEvent) => {
+    const handleCreateProject = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // TODO: Add logic to create the project (e.g., send a request to backend API)
-        console.log('Creating project:', { projectName, projectDescription });
+        try {
+            // Création du nouveau projet
+            const newProject = {
+                nom: projectName,
+                description: projectDescription,
+            };
 
-        // Redirect to the project page after creating the project
-        navigate('/projects');
+            const projectResponse = await axios.post('http://localhost:3000/projects', newProject);
+            const projectId = projectResponse.data.id;
+
+            // Création du tag associé au projet
+            if (projectTag) {
+                const newTag = {
+                    titre: projectTag,
+                    color: 'default', // Remplacez par une valeur souhaitée ou ajoutez une logique pour définir la couleur
+                    project_id: projectId,
+                };
+
+                await axios.post('http://localhost:3000/tags', newTag);
+            }
+
+            alert('Projet créé avec succès');
+            // Rediriger vers la page des projets après la création du projet
+            navigate('/projects');
+        } catch (error) {
+            console.error('Erreur lors de la création du projet :', error);
+            alert('Erreur lors de la création du projet. Veuillez réessayer.');
+        }
     };
 
     return (
@@ -39,6 +64,16 @@ const AddProjectPage: React.FC = () => {
                         onChange={(e) => setProjectDescription(e.target.value)}
                         required
                     ></textarea>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="projectTag">Tag du Projet</label>
+                    <input
+                        type="text"
+                        id="projectTag"
+                        value={projectTag}
+                        onChange={(e) => setProjectTag(e.target.value)}
+                        placeholder="Entrez un tag pour le projet (ex: v1, front)"
+                    />
                 </div>
                 <button type="submit" className="create-project-button">
                     Créer le Projet
