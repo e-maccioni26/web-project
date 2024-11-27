@@ -23,6 +23,7 @@ class AuthController {
         const encryptedId = Security.encrypt(id.toString())
     
         const token = AuthService.generateToken({
+            nom: userData.nom,
             email,
             id: encryptedId
         });
