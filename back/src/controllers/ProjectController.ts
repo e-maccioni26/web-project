@@ -32,8 +32,8 @@ class ProjectController {
 
   async getProjectUsers(req: Request, res: Response) {
     try {
-      const project = await ProjectService.getProjectUsers(Number(req.params.id));
-      res.status(200).json(project);
+      const users = await ProjectService.getProjectUsers(Number(req.params.id));
+      res.status(200).json(users.map(user => Security.encryptUser(user)) );
     } catch (error: any) {
       res.status(404).json({ error: error.message });
     }

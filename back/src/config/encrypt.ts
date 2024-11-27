@@ -1,5 +1,5 @@
 import * as crypto from 'crypto';
-import { UserAttributesEncoded, UserAttributesDecoded } from '../utils/types';
+import { UserAttributesEncoded } from '../utils/types';
 
 function splitEncryptedText(encryptedText: string) {
     return {
@@ -64,16 +64,21 @@ class SecurityGCM {
             throw new Error("invalid ID");
         }
     }
-    encryptUser(user: UserAttributesDecoded): UserAttributesEncoded{
+    encryptUser(user: any): UserAttributesEncoded{
         const encryptedId = this.encrypt(user.id.toString())
         if (typeof(encryptedId) !== "string") throw new Error("invalid ID");
-        return {
-            id: encryptedId,
-            nom: user.nom,
-            email: user.email,
-            mot_de_passe: user.mot_de_passe,
-            date_creation: user.date_creation,
-        };
+        try{
+            return {
+                id: encryptedId,
+                nom: user.nom,
+                email: user.email,
+                mot_de_passe: user.mot_de_passe,
+                date_creation: user.date_creation,
+            };
+        }
+        catch{
+            throw new Error("Error while encrypting ID")
+        }
     }
 }
 

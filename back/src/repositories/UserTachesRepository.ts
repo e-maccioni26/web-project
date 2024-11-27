@@ -1,5 +1,6 @@
 import UsersTaches from "../models/UsersTaches";
 import Tache from "../models/Tache";
+import User from "../models/User"
 class UserTacheRepository {
   async create(data: any) {
     return await UsersTaches.create(data);
@@ -15,6 +16,18 @@ class UserTacheRepository {
     }) as any[];
     const formatedTaches = taches.map(tache => tache.Tache.dataValues)
     return formatedTaches
+  }
+
+  async getTacheUsers(id: number) {
+    const taches = await UsersTaches.findAll({
+      where: {UserId: id},
+      include: [{
+        model: User
+      }],
+      attributes: [],
+    }) as any[];
+    const formatedUsers = taches.map(tache => tache.User.dataValues)
+    return formatedUsers
   }
 
   async findById(id: number) {

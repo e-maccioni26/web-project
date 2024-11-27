@@ -48,6 +48,15 @@ class TacheController {
     }
   }
 
+  async getTags(req: Request, res: Response) {
+    try {
+      const tags = await TacheService.getTags(Number(req.params.id));
+      res.status(200).send(tags);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
   async addTags(req: Request, res: Response) {
     const { tags } = req.body
     if (!isIntArray(tags)) {
@@ -71,6 +80,20 @@ class TacheController {
     try {
       await TacheService.removeTags(Number(req.params.id), tags);
       res.status(204).send();
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async getUsers(req: Request, res: Response) {
+    const { users } = req.body
+    if (!isStringArray(users)) {
+      res.status(400).json({ error: "users must be list of string ids" });
+      return
+    }
+    try {
+      const users = await TacheService.getUsers(Number(req.params.id));
+      res.status(200).json(users.map(user => Security.encryptUser(user)));
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }
