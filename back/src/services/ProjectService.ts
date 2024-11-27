@@ -32,6 +32,18 @@ class ProjectService {
     if (!project) throw new Error('Projet introuvable');
     return await ProjectRepository.deleteProject(id);
   }
+
+  async addUsers(id: number, usersIds: number[]) {
+    const project = await UserProjectRepository.addUsers(id, usersIds);
+    if (!project) throw new Error('Projet introuvable');
+    return project
+  }
+
+  async removeUsers(id: number, usersIds: number[]) {
+    const project = await UserProjectRepository.removeUsers(id, usersIds);
+    if (!project) throw new Error('Projet introuvable');
+    return project
+  }
 }
 
 export default new ProjectService();
