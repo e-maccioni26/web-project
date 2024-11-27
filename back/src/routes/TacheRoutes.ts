@@ -17,5 +17,9 @@ router.get('/', TacheController.getTaches);
 router.get('/:id', TacheController.getTacheById);
 router.put('/:id', TacheController.updateTache);
 router.delete('/:id', TacheController.deleteTache);
+router.post('/:id/tags', TacheController.addTags);
+router.delete('/:id/tags', TacheController.removeTags);
+router.post('/:id/users', TacheController.addUsers);
+router.delete('/:id/users', TacheController.removeUsers);
 
 export default router;

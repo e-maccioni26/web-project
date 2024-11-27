@@ -34,15 +34,19 @@ class ProjectService {
   }
 
   async addUsers(id: number, usersIds: number[]) {
-    const project = await UserProjectRepository.addUsers(id, usersIds);
+    const project = await ProjectRepository.findProjectById(id);
     if (!project) throw new Error('Projet introuvable');
-    return project
+    const userInProject = await UserProjectRepository.isUserInProject(id, usersIds);
+    if(userInProject) throw new Error('Utilisateur déja présent dans le projet');
+    return await UserProjectRepository.addUsers(id, usersIds);
   }
 
   async removeUsers(id: number, usersIds: number[]) {
-    const project = await UserProjectRepository.removeUsers(id, usersIds);
+    const project = await ProjectRepository.findProjectById(id);
     if (!project) throw new Error('Projet introuvable');
-    return project
+    const userInProject = await UserProjectRepository.isUserInProject(id, usersIds);
+    if (!userInProject) throw new Error('Utilisateur absent du projet');
+    return await UserProjectRepository.removeUsers(id, usersIds);
   }
 }
 

@@ -55,6 +55,14 @@ class SecurityGCM {
             console.error('Decryption failed:', e);
         }
     }
+    decryptId(encrypted: string): number{
+        const decrypted = this.decrypt(encrypted)
+        if(typeof(decrypted) == "string"){
+            return parseInt(decrypted)
+        }else{
+            throw new Error("invalid ID");
+        }
+    }
 }
 
 export default new SecurityGCM();

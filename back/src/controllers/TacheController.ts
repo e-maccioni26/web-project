@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import TacheService from '../services/TacheService';
+import Security from "../config/encrypt"
 
 class TacheController {
   async createTache(req: Request, res: Response) {
@@ -19,8 +20,6 @@ class TacheController {
       res.status(500).json({ error: error.message });
     }
   }
-
-  
 
   async getTacheById(req: Request, res: Response) {
     try {
@@ -48,6 +47,72 @@ class TacheController {
       res.status(404).json({ error: error.message });
     }
   }
+
+  async addTags(req: Request, res: Response) {
+    const { tags } = req.body
+    if (!isIntArray(tags)) {
+      res.status(400).json({ error: "tags must be list of integers" });
+      return
+    }
+    try {
+      await TacheService.addTags(Number(req.params.id), tags);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async removeTags(req: Request, res: Response) {
+    const { tags } = req.body
+    if (!isIntArray(tags)) {
+      res.status(400).json({ error: "tags must be list of integers" });
+      return
+    }
+    try {
+      await TacheService.removeTags(Number(req.params.id), tags);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async addUsers(req: Request, res: Response) {
+    const { users } = req.body
+    if (!isStringArray(users)) {
+      res.status(400).json({ error: "users must be list of string ids" });
+      return
+    }
+    try {
+      const usersIds = users.map(user => Security.decryptId(user));
+      await TacheService.addUsers(Number(req.params.id), usersIds);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async removeUsers(req: Request, res: Response) {
+    const { users } = req.body
+    if (!isStringArray(users)) {
+      res.status(400).json({ error: "users must be list of string ids" });
+      return
+    }
+    try {
+      const usersIds = users.map(user => Security.decryptId(user));
+      await TacheService.removeUsers(Number(req.params.id), usersIds);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every(item => typeof item === 'string');
+}
+
+function isIntArray(value: unknown): value is number[] {
+  return Array.isArray(value) && value.every(item => typeof item === 'number');
 }
 
 export default new TacheController();
