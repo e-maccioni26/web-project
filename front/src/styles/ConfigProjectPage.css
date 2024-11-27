@@ -22,22 +22,6 @@
     margin: 30px 0;
 }
 
-.user-item {
-    padding: 15px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: box-shadow 0.3s;
-}
-
-.user-item:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .add-user-container {
     display: flex;
     align-items: center;
@@ -79,7 +63,6 @@
     transform: translateY(0);
 }
 
-
 .back-link {
     display: inline-block;
     margin-top: 30px;
@@ -94,6 +77,73 @@
     text-decoration: underline;
 }
 
-ul{
+ul {
     list-style-type: none;
+}
+
+.project-users {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Augmenter l'espacement pour une meilleure séparation */
+    margin-top: 20px;
+}
+
+.user-card {
+    padding: 20px;
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    border: 1px solid #ddd;
+    border-radius: 15px; /* Bordure arrondie pour un look plus moderne */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Une ombre plus douce et plus subtile */
+    width: calc(50% - 20px); /* Ajuster la largeur à 50% moins l'espacement */
+    transition: box-shadow 0.3s, transform 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px); /* Légère élévation lors du survol */
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-info p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.remove-user-button {
+    margin-left: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px; /* Augmenter la taille pour rendre le bouton plus visible */
+    transition: color 0.3s, transform 0.2s;
+}
+
+.remove-user-button:hover {
+    color: #e53935; /* Utiliser une couleur rouge plus douce */
+    transform: scale(1.1);
+}
+
+.remove-user-button:active {
+    transform: scale(1);
+}
+
+.filtered-users {
+    margin-top: 20px;
+}
+
+.filtered-users .user-card {
+    display: flex;
+    align-items: center;
+}
+
+.filtered-users input[type="checkbox"] {
+    margin-right: 15px;
 }
