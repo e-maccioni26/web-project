@@ -29,6 +29,15 @@ class ProjectController {
     }
   }
 
+  async getProjectUsers(req: Request, res: Response) {
+    try {
+      const project = await ProjectService.getProjectUsers(Number(req.params.id));
+      res.status(200).json(project);
+    } catch (error: any) {
+      res.status(404).json({ error: error.message });
+    }
+  }
+
   async updateProject(req: Request, res: Response) {
     try {
       const updatedProject = await ProjectService.updateProject(Number(req.params.id), req.body);

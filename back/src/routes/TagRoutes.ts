@@ -8,3 +8,5 @@ router.get('/', TagController.getTags);
 router.get('/:id', TagController.getTagById);
 router.put('/:id', TagController.updateTag);
 router.delete('/:id', TagController.deleteTag);
+
+export default router;
