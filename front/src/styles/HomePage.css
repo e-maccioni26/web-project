@@ -25,6 +25,10 @@
     margin-bottom: 20px;
 }
 
+.user{
+    text-transform: uppercase;
+}
+
 .task-list {
     display: flex;
     flex-wrap: wrap;
