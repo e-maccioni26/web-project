@@ -7,6 +7,7 @@ interface User {
     id: string;
     nom: string;
     email: string;
+    mot_de_passe: string; // Ajout du champ mot_de_passe
 }
 
 interface Project {
@@ -37,7 +38,7 @@ const ConfigProjectPage: React.FC = () => {
         const fetchProjectUsers = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/projects/${projectId}/users`);
-                const users = response.data.filter((user: any) => user && user.nom && user.email);
+                const users = response.data.filter((user: any) => user && user.nom && user.email && user.mot_de_passe);
                 setProjectUsers(users);
             } catch (error) {
                 console.error('Erreur lors de la récupération des utilisateurs du projet:', error);
@@ -60,12 +61,17 @@ const ConfigProjectPage: React.FC = () => {
     }, [projectId]);
 
     const handleAddUser = async (userToAdd: User) => {
-        try {
-            if (projectUsers.some((user) => user.id.toString() === userToAdd.id.toString())) {
-                alert('Cet utilisateur est déjà associé au projet.');
-                return;
-            }
 
+        const alreadyAdded = projectUsers.some((user) => {
+            return user.email === userToAdd.email && user.mot_de_passe === userToAdd.mot_de_passe;
+        });
+
+        if (alreadyAdded) {
+            alert('Cet utilisateur est déjà associé au projet.');
+            return;
+        }
+
+        try {
             await axios.post(`http://localhost:3000/projects/${projectId}/users`, {
                 users: [userToAdd.id.toString()],
             });
@@ -74,7 +80,7 @@ const ConfigProjectPage: React.FC = () => {
 
             // Rafraîchir la liste des utilisateurs du projet sans recharger la page entière
             const response = await axios.get(`http://localhost:3000/projects/${projectId}/users`);
-            const users = response.data.filter((user: any) => user && user.nom && user.email);
+            const users = response.data.filter((user: any) => user && user.nom && user.email && user.mot_de_passe);
             setProjectUsers(users);
 
             // Nettoyer la barre de recherche
@@ -106,7 +112,7 @@ const ConfigProjectPage: React.FC = () => {
 
             // Rafraîchir la liste des utilisateurs du projet
             const response = await axios.get(`http://localhost:3000/projects/${projectId}/users`);
-            const users = response.data.filter((user: any) => user && user.nom && user.email);
+            const users = response.data.filter((user: any) => user && user.nom && user.email && user.mot_de_passe);
             setProjectUsers(users);
         } catch (error) {
             console.error("Erreur lors de la suppression de l'utilisateur:", error);
@@ -120,7 +126,7 @@ const ConfigProjectPage: React.FC = () => {
         <div className="config-project-page">
             <h1>Configuration du Projet {projectName}</h1>
             <div className="users-list">
-                <h2>Utilisateurs affectés Projet</h2>
+                <h2>Utilisateurs affectés au Projet</h2>
                 <div className="project-users">
                     {projectUsers.map((user) => (
                         <div key={user.id} className="user-card">
@@ -153,18 +159,31 @@ const ConfigProjectPage: React.FC = () => {
                 </div>
                 {newUserEmail && (
                     <div className="filtered-users">
-                        {filteredUsers.map((user) => (
-                            <div key={user.id} className="user-card">
-                                <input
-                                    type="checkbox"
-                                    onChange={() => handleAddUser(user)}
-                                />
-                                <div className="user-info">
-                                    <p>{user.nom ? user.nom : 'Nom non disponible'}</p>
-                                    <p>{user.email ? user.email : 'Email non disponible'}</p>
+                        {filteredUsers.map((user) => {
+                            // Vérifier si l'utilisateur est déjà associé au projet par email et mot de passe
+                            const alreadyAdded = projectUsers.some((projectUser) => {
+                                return projectUser.email === user.email && projectUser.mot_de_passe === user.mot_de_passe;
+                            });
+
+                            return (
+                                <div key={user.id} className="user-card">
+                                    <input
+                                        type="checkbox"
+                                        onChange={() => handleAddUser(user)}
+                                        disabled={alreadyAdded} // Désactiver la case à cocher si l'utilisateur est déjà ajouté
+                                    />
+                                    <div className="user-info">
+                                        <p>{user.nom ? user.nom : 'Nom non disponible'}</p>
+                                        <p>{user.email ? user.email : 'Email non disponible'}</p>
+                                    </div>
+                                    {alreadyAdded && (
+                                        <span style={{ color: 'red', marginLeft: '10px' }}>
+                                            Déjà ajouté
+                                        </span>
+                                    )}
                                 </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 )}
             </div>
