@@ -28,12 +28,11 @@ const ProjectPage: React.FC = () => {
   return (
     <div className="project-page">
       <div className="project-page-header">
-        <h1>Espace Projet</h1>
+        <h1>Mes Projets</h1>
         <Link to="/add-project" className="new-project-button">
           Nouveau Projet
         </Link>
       </div>
-      <p>Voici votre espace utilisateur. Choisissez un projet :</p>
       <div className="project-page-list">
         {projects.map((project) => (
           <Link to={`/projects/${project.id}`} key={project.id} className="project-card">

@@ -13,6 +13,12 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
 
     try {
+      // Vérifier si l'email est déjà utilisé
+      const existingUserResponse = await axios.get(`http://localhost:3000/users?email=${email}`);
+      if (existingUserResponse.data.length > 0) {
+        alert('Un compte avec cet email existe déjà. Veuillez vous connecter.');
+        return;
+      }
       // Envoyer la requête d'inscription vers le backend
       const response = await axios.post('http://localhost:3000/auth/register', {
         nom,
