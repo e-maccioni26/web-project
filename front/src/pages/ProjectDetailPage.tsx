@@ -102,8 +102,7 @@ const ProjectDetailPage: React.FC = () => {
       <button className="config-button" onClick={() => navigate(`/projects/${projectId}/config`)}>
         Configurer le Projet
       </button>
-      <h1>Espace Projet</h1>
-      <p>Vous avez choisi : {project.nom}</p>
+      <h1>Projet {project.nom}</h1>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <div className="task-columns">
           {['à faire', 'en cours', 'terminée'].map((status) => (
