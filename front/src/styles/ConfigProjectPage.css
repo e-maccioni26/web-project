@@ -65,16 +65,18 @@
 
 .back-link {
     display: inline-block;
-    margin-top: 30px;
+    margin-top: 20px;
     text-decoration: none;
-    color: #00bcd4;
+    color: rgb(70, 70, 70);
+    background-color: rgb(247, 247, 247);
     font-weight: bold;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
     transition: color 0.3s;
 }
 
 .back-link:hover {
-    color: #007c91;
-    text-decoration: underline;
+    color: white;
+    background-color: rgb(32, 32, 32);
 }
 
 ul {

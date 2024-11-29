@@ -80,10 +80,10 @@ const Navigation: React.FC = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/add-task">
+          {/* <NavLink to="/add-task">
             <FaPlusCircle className="nav-icon" />
             Add task
-          </NavLink>
+          </NavLink> */}
         </li>
       </ul>
       {isProjectPage && projects.length > 0 && (

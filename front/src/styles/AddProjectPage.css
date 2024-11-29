@@ -39,7 +39,7 @@
 }
 
 .create-project-button {
-    background-color: #ba68c8;
+    background-color: #009597;
     color: white;
     padding: 10px 20px;
     font-size: 16px;
@@ -51,7 +51,7 @@
 }
 
 .create-project-button:hover {
-    background-color: #9c52a5;
+    background-color: #009597;
 }
 
 .back-to-projects-button {

@@ -4,7 +4,7 @@
     position: fixed;
     left: 0;
     top: 0;
-    background-color: #ba68c8;
+    background-color: #308276;
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -31,12 +31,14 @@
 }
 
 .navigation-links li a {
-    display: flex;
-    align-items: center;
     text-decoration: none;
     color: white;
-    font-size: 1.2rem;
     transition: color 0.3s;
+    min-width: 150px;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: larger;
 }
 
 .navigation-links li a .nav-icon {
@@ -44,7 +46,8 @@
 }
 
 .navigation-links li a:hover {
-    color: #e1bee7;
+    color: #308276;
+    background-color: white;
 }
 
 .divider {
@@ -92,13 +95,13 @@
 }
 
 .project-list li a:hover {
-    background-color: #e1bee7;
-    color: #ba68c8;
+    background-color: white;
+    color: #308276;
 }
 
 .active-link {
     background-color: #ffffff;
-    color: #ba68c8 !important;
+    color: #308276 !important;
     padding: 10px;
     border-radius: 5px;
     font-weight: bold;

@@ -16,7 +16,7 @@
 }
 
 .new-project-button {
-    background-color: #ba68c8;
+    background-color: #009597;
     color: white;
     padding: 10px 20px;
     font-size: 16px;
@@ -29,7 +29,7 @@
 }
 
 .new-project-button:hover {
-    background-color: #9c52a5;
+    background-color: #308276;
     color: #ffffff;
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -84,10 +84,6 @@
     border-radius: 5px;
     display: flex;
     align-items: center;
-  }
-  
-  .back-link:hover {
-    background-color: #0056b3; /* Couleur de fond au survol */
   }
   
   .nav-icon {
