@@ -28,6 +28,7 @@ const LoginPage: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      localStorage.setItem('userId', verifyResponse.data.user.id);
 
       // Si la vérification est réussie, rediriger l'utilisateur vers la page d'accueil
       if (verifyResponse.status === 200) {
