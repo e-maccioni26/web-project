@@ -2,16 +2,43 @@
     padding: 20px;
 }
 
+.div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-bar {
+    padding: 10px;
+    margin: 20px 0;
+    width: 100%;
+    max-width: 400px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  }
+
 .home-page h1 {
     color: #222;
     font-size: 24px;
     margin-bottom: 20px;
 }
 
+.user{
+    text-transform: uppercase;
+}
+
 .task-list {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+}
+
+.add-task-button{
+    background-color: white;
+    padding: 10px;
+    border-radius: 20px;
 }
 
 .task-card {

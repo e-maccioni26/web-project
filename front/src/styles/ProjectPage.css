@@ -69,3 +69,27 @@
     color: #666;
     font-size: 16px;
 }
+
+  .link-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .back-link {
+    text-decoration: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .back-link:hover {
+    background-color: #0056b3; /* Couleur de fond au survol */
+  }
+  
+  .nav-icon {
+    margin-right: 5px; /* Espace entre l'icône et le texte */
+  }

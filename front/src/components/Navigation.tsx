@@ -4,11 +4,18 @@ import axios from 'axios';
 import '../styles/Navigation.css';
 import { FaHome, FaProjectDiagram, FaPlusCircle, FaFolder, FaSignOutAlt } from 'react-icons/fa';
 
+interface Project {
+  id: number;
+  nom: string;
+}
+
 const Navigation: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [projects, setProjects] = useState<Project[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Vérifier si l'utilisateur est connecté
     const verifyUser = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -28,17 +35,27 @@ const Navigation: React.FC = () => {
     verifyUser();
   }, []);
 
+  useEffect(() => {
+    // Récupérer les projets de l'utilisateur
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/projects');
+        setProjects(response.data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des projets:', error);
+      }
+    };
+
+    if (isLoggedIn) {
+      fetchProjects();
+    }
+  }, [isLoggedIn]);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     navigate('/login');
   };
-
-  const projects = [
-    { id: 1, name: 'My Project 1' },
-    { id: 2, name: 'My Project 2' },
-    { id: 3, name: 'My Project 3' },
-  ];
 
   const location = useLocation();
   const isProjectPage = location.pathname.startsWith('/projects');
@@ -68,18 +85,18 @@ const Navigation: React.FC = () => {
           </NavLink>
         </li>
       </ul>
-      {isProjectPage && (
+      {isProjectPage && projects.length > 0 && (
         <>
           <div className="my-projects">
             <div className="divider"></div>
             <h3>
-              <FaFolder className="nav-icon" /> My Project
+              <FaFolder className="nav-icon" /> My Projects
             </h3>
             <ul className="project-list">
               {projects.map((project) => (
                 <li key={project.id}>
                   <NavLink to={`/projects/${project.id}`} className={({ isActive }) => (isActive ? 'active-link' : '')}>
-                    {project.name}
+                    {project.nom}
                   </NavLink>
                 </li>
               ))}

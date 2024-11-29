@@ -12,10 +12,16 @@ const router = Router();
 
 // affecter tache a un user
 // router.get('/byUser', UserTachesController.getUserTaches);
-router.post('/', TacheController.createTache);
 router.get('/', TacheController.getTaches);
+router.post('/', TacheController.createTache);
 router.get('/:id', TacheController.getTacheById);
 router.put('/:id', TacheController.updateTache);
 router.delete('/:id', TacheController.deleteTache);
+router.get('/:id/tags', TacheController.getTags);
+router.post('/:id/tags', TacheController.addTags);
+router.delete('/:id/tags', TacheController.removeTags);
+router.get('/:id/users', TacheController.getUsers);
+router.post('/:id/users', TacheController.addUsers);
+router.delete('/:id/users', TacheController.removeUsers);
 
 export default router;

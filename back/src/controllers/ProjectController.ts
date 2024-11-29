@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import ProjectService from '../services/ProjectService';
+import Security from "../config/encrypt"
 
 class ProjectController {
   async createProject(req: Request, res: Response) {
@@ -29,6 +30,15 @@ class ProjectController {
     }
   }
 
+  async getProjectUsers(req: Request, res: Response) {
+    try {
+      const users = await ProjectService.getProjectUsers(Number(req.params.id));
+      res.status(200).json(users.map(user => Security.encryptUser(user)) );
+    } catch (error: any) {
+      res.status(404).json({ error: error.message });
+    }
+  }
+
   async updateProject(req: Request, res: Response) {
     try {
       const updatedProject = await ProjectService.updateProject(Number(req.params.id), req.body);
@@ -46,6 +56,40 @@ class ProjectController {
       res.status(404).json({ error: error.message });
     }
   }
+
+  async addUsers(req: Request, res: Response) {
+    const { users } = req.body
+    if (!isStringArray(users)) {
+      res.status(400).json({ error: "users must be list of string ids" });
+      return
+    }
+    try {
+      const usersIds = users.map(user => Security.decryptId(user));
+      await ProjectService.addUsers(Number(req.params.id), usersIds);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+  async removeUsers(req: Request, res: Response) {
+    const { users } = req.body
+    if (!isStringArray(users)) {
+      res.status(400).json({ error: "users must be list of string ids" });
+      return
+    }
+    try {
+      const usersIds = users.map(user => Security.decryptId(user));
+      await ProjectService.removeUsers(Number(req.params.id), usersIds);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every(item => typeof item === 'string');
 }
 
 export default new ProjectController();

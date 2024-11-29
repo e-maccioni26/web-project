@@ -71,6 +71,5 @@ Tache.init(
 
 Tache.belongsTo(Project, { foreignKey: 'project_id', onDelete: 'CASCADE' });
 
-Tache.sync();
 
 export default Tache;

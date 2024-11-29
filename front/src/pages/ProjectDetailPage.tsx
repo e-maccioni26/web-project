@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { FaPlusCircle } from 'react-icons/fa';
 import {
   DndContext,
   closestCenter,
@@ -12,73 +13,124 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from '@dnd-kit/sortable';
+import axios from 'axios';
 import '../styles/ProjectDetailPage.css';
-
-const projects = [
-  { id: 1, name: 'My Project 1', description: 'Description : Projet 1' },
-  { id: 2, name: 'My Project 2', description: 'Description : Projet 2' },
-  { id: 3, name: 'My Project 3', description: 'Description : Projet 3' },
-];
-
-const tasksData = [
-  { id: 1, projectId: 1, status: 'To do', name: 'Task 1: To do' },
-  { id: 2, projectId: 1, status: 'To do', name: 'Task 2: To do' },
-  { id: 3, projectId: 1, status: 'On Progress', name: 'Task 3: On Progress' },
-  { id: 4, projectId: 1, status: 'On Progress', name: 'Task 4: On Progress' },
-  { id: 5, projectId: 1, status: 'Done', name: 'Task 5: Done' },
-  { id: 6, projectId: 2, status: 'To do', name: 'Task 6: To do' },
-  { id: 7, projectId: 2, status: 'Done', name: 'Task 7: Done' },
-];
 
 const ProjectDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const projectId = parseInt(id || '', 10);
-  const project = projects.find((p) => p.id === projectId);
-  const [tasks, setTasks] = useState(tasksData.filter((task) => task.projectId === projectId));
+  const [project, setProject] = useState<any>(null);
+  const [tasks, setTasks] = useState<any[]>([]);
+  const navigate = useNavigate();
+  const sensors = useSensors(useSensor(PointerSensor));
 
   useEffect(() => {
-    // Mettre à jour les tâches lorsque l'ID du projet change
-    setTasks(tasksData.filter((task) => task.projectId === projectId));
+    // Récupérer les informations du projet
+    const fetchProject = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/projects/${projectId}`);
+        setProject(response.data);
+      } catch (error) {
+        console.error('Erreur lors du chargement du projet :', error);
+      }
+    };
+
+    // Récupérer les tâches du projet depuis l'API
+
+    const fetchTasks = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/taches?project_id=${projectId}`);
+        const tasks = response.data;
+    
+        const tasksWithTags = await Promise.all(tasks.map(async (task: any) => {
+          try {
+            const tagsResponse = await axios.get(`http://localhost:3000/taches/${task.id}/tags`);
+            return { ...task, tags: tagsResponse.data };
+          } catch (error) {
+            console.error(`Erreur lors du chargement des tags pour la tâche ${task.id}:`, error);
+            return { ...task, tags: [] };
+          }
+        }));
+        console.log(tasksWithTags)
+        setTasks(tasksWithTags);
+      } catch (error) {
+        console.error('Erreur lors du chargement des tâches :', error);
+      }
+    };
+    fetchProject();
+    fetchTasks();
   }, [projectId]);
 
   if (!project) {
     return <p>Projet non trouvé</p>;
   }
 
-  const sensors = useSensors(useSensor(PointerSensor));
-
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = async (event: any) => {
     const { active, over } = event;
 
     if (!over) return;
 
     if (active.id !== over.id) {
-      setTasks((items) => {
-        const oldIndex = items.findIndex((item) => item.id === parseInt(active.id));
-        const newIndex = items.findIndex((item) => item.id === parseInt(over.id));
+      const oldIndex = tasks.findIndex((item) => item.id === parseInt(active.id));
+      const newIndex = tasks.findIndex((item) => item.id === parseInt(over.id));
+      const updatedTasks = arrayMove(tasks, oldIndex, newIndex);
+      setTasks(updatedTasks);
+    }
 
-        return arrayMove(items, oldIndex, newIndex);
-      });
+    // Mettre à jour le statut de la tâche
+    const activeTask = tasks.find((task) => task.id === parseInt(active.id));
+    if (activeTask) {
+      try {
+        await axios.put(`http://localhost:3000/taches/${activeTask.id}`, {
+          ...activeTask,
+          statut: over.id,
+        });
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour du statut de la tâche :', error);
+      }
     }
   };
 
-  const updateTaskStatus = (taskId: number, newStatus: string) => {
+  const updateTaskStatus = async (taskId: number, newStatus: string) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
-        task.id === taskId ? { ...task, status: newStatus } : task
+        task.id === taskId ? { ...task, statut: newStatus } : task
       )
     );
+
+    // Mettre à jour le statut de la tâche dans la base de données
+    try {
+      await axios.put(`http://localhost:3000/taches/${taskId}`, {
+        statut: newStatus,
+      });
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du statut de la tâche :', error);
+    }
   };
 
-  const getTasksByStatus = (status: string) => tasks.filter((task) => task.status === status);
+  const getTasksByStatus = (status: string) => tasks.filter((task) => task.statut === status);
 
   return (
     <div key={projectId} className="project-detail-page">
-      <h1>Bienvenue {'{User}'}</h1>
-      <p>Vous avez choisi : {project.name}</p>
+      <button className="config-button" onClick={() => navigate(`/projects/${projectId}/config`)}>
+        Configurer le Projet
+      </button>
+      <h1>Projet {project.nom}</h1>
+      <div className="link-container">
+
+        <Link to={`/add-task/${project.id}`} key={project.id} className="back-link">
+          <FaPlusCircle className="nav-icon" />
+          Add task
+        </Link>
+        <Link to={`/add-tag/${project.id}`} key={project.id} className="back-link">
+          <FaPlusCircle className="nav-icon" />
+          Add Tag
+        </Link>
+        <Link to="/projects" className="back-link">Retour aux projets</Link>
+    </div>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <div className="task-columns">
-          {['To do', 'On Progress', 'Done'].map((status) => (
+          {['à faire', 'en cours', 'terminée'].map((status) => (
             <SortableContext
               items={getTasksByStatus(status).map((task) => task.id.toString())}
               strategy={verticalListSortingStrategy}
@@ -102,7 +154,32 @@ const ProjectDetailPage: React.FC = () => {
                     draggable
                     onDragStart={(e) => e.dataTransfer.setData('text/plain', task.id.toString())}
                   >
-                    {task.name}
+                    <div className="tags-container">
+                      {task.tags && task.tags.map((tag: any) => (
+                        <span
+                        key={tag.id}
+                          className="tag"
+                          style={{
+                            backgroundColor: tag.color,
+                            width: '20px',
+                            height: '20px',
+                            borderRadius: '3px', // Pour rendre le carré arrondi
+                            display: 'inline-block',
+                            marginRight: '5px',
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <h2>{task.titre}</h2>
+
+                    <Link
+                      to={`/tasks/${task.id}/${projectId}`}
+                      key={project.id}
+                    >
+                      Détail
+                    </Link>
+
+
                   </div>
                 ))}
               </div>
@@ -110,7 +187,7 @@ const ProjectDetailPage: React.FC = () => {
           ))}
         </div>
       </DndContext>
-      <Link to="/projects" className="back-link">Retour aux projets</Link>
+
     </div>
   );
 };

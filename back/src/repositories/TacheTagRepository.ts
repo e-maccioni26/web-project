@@ -1,5 +1,6 @@
 import TachesTags from "../models/TachesTags";
 import Tache from "../models/Tache";
+import Tag from "../models/Tag"
 
 class TacheTagRepository {
   async createTacheTag(data: any) {
@@ -22,16 +23,45 @@ class TacheTagRepository {
     return await TachesTags.destroy({ where: { id } });
   }
 
-  async findTagsByProjectId(projectId: number) {
-    return await Tache.findAll({
-      where: { project_id: projectId },
-      include: [
-        {
-          model: TachesTags,
-          through: { attributes: [] },
-        },
-      ],
-    });
+  async isTagOntask(id: number, tags: number[]){
+    const tagOnTask = await TachesTags.findAll({
+        where: {
+          TacheId: id,
+          TagId: tags
+        }
+    })
+    if(tagOnTask.length == 0) return false
+    return true
+  }
+
+  async getTags(id: number) {
+    const taches = await TachesTags.findAll({
+      where: {TacheId: id},
+      include: [{
+        model: Tag
+      }],
+      attributes: [],
+    }) as any[];
+    const formatedTags = taches.map(tache => tache.Tag.dataValues)
+    return formatedTags
+  }
+
+
+  async addTags(id: number, tags: number[]) {
+    const tasktags = tags.map(tagId => ({
+      TacheId: id,
+      TagId: tagId
+    }));
+    return await TachesTags.bulkCreate(tasktags);
+  }
+
+  async removeTags(id: number, tags: number[]){
+      return await TachesTags.destroy({
+          where: {
+            TacheId: id,
+            TagId: tags
+          }
+      });
   }
 
 }

@@ -1,28 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import '../styles/ProjectPage.css';
 
+interface Project {
+  id: number;
+  nom: string;
+  date_creation: Date;
+}
+
 const ProjectPage: React.FC = () => {
-  const projects = [
-    { id: 1, name: 'My Project 1', description: 'Description : Projet 1' },
-    { id: 2, name: 'My Project 2', description: 'Description : Projet 2' },
-    { id: 3, name: 'My Project 3', description: 'Description : Projet 3' },
-  ];
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    // Récupérer les projets depuis l'API
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/projects');
+        setProjects(response.data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des projets:', error);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   return (
     <div className="project-page">
       <div className="project-page-header">
-        <h1>Bienvenue {"{User}"}</h1>
+        <h1>Mes Projets</h1>
         <Link to="/add-project" className="new-project-button">
           Nouveau Projet
         </Link>
       </div>
-      <p>Voici votre espace utilisateur. Choisissez un projet :</p>
       <div className="project-page-list">
         {projects.map((project) => (
           <Link to={`/projects/${project.id}`} key={project.id} className="project-card">
-            <h2>{project.name}</h2>
-            <p>{project.description}</p>
+            <h2>{project.nom}</h2>
+            <p>Date de création : {new Date(project.date_creation).toLocaleDateString()}</p>
           </Link>
         ))}
       </div>

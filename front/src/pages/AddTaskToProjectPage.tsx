@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import '../styles/AddTaskPage.css';
 import axios from 'axios';
 
 const AddTaskPage: React.FC = () => {
+  const { projectId } = useParams<{ projectId: string }>();
   const [taskTitle, setTaskTitle] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [priority, setPriority] = useState('moyenne');
-  const [status, setStatus] = useState('à faire');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -17,13 +17,14 @@ const AddTaskPage: React.FC = () => {
       titre: taskTitle,
       description: taskDescription,
       priorite: priority,
-      statut: status,
+      statut: "à faire",
       date_creation: new Date().toISOString(),
+      project_id: Number(projectId)
     };
 
     try {
       await axios.post('http://localhost:3000/taches', newTask);
-      navigate('/');
+      navigate(`/projects/${projectId}`);
     } catch (error) {
       console.error('Erreur lors de la création de la tâche :', error);
     }
@@ -62,20 +63,11 @@ const AddTaskPage: React.FC = () => {
             <option value="haute">Haute</option>
           </select>
         </div>
-        <div>
-          <label>Statut :</label>
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="à faire">À faire</option>
-            <option value="en cours">En cours</option>
-            <option value="terminée">Terminé</option>
-          </select>
-        </div>
         <button className="btn-submit" type="submit">Ajouter la Tâche</button>
       </form>
-      <Link to="/" className="back-to-home-button">Retour à la Page d'Accueil</Link>
+      <Link to={`/projects/${projectId}`} className="back-link">
+          Retour au projet
+        </Link>
     </div>
   );
 };

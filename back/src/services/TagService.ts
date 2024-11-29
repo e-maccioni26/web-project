@@ -39,12 +39,6 @@ class TagService {
     };
     return await TacheTagRepository.createTacheTag(tacheTag);
   }
-
-  async removeTagFromTache(tacheId: number, tagId: number) {
-    const tacheTag = await TacheTagRepository.findAllTacheTags({ TacheId: tacheId, TagId: tagId });
-    if (!tacheTag) throw new Error('Tag introuvable');
-    return await TacheTagRepository.deleteTacheTag(Number(tacheTag[0].id));
-  }
 }
 
 export default new TagService();
