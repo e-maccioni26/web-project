@@ -29,8 +29,6 @@ const RegisterPage: React.FC = () => {
       // Stocker le token JWT dans le localStorage
       localStorage.setItem('token', response.data.token);
 
-      // Rediriger vers la page d'accueil après une inscription réussie
-      alert('Inscription réussie, vous êtes maintenant connecté.');
       navigate('/');
     } catch (error) {
       console.error('Erreur lors de l\'inscription :', error);
