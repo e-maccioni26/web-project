@@ -87,8 +87,8 @@ Assurez-vous d'avoir les outils suivants installés sur votre machine :
 ### 1️⃣ Cloner le dépôt
 
 ```bash
-git clone https://github.com/votre-utilisateur/votre-repo.git
-cd votre-repo
+git clone https://github.com/votre-utilisateur/votre-repo.git](https://github.com/e-maccioni26/web-project.git
+cd web-project
 ```
 
 ---
