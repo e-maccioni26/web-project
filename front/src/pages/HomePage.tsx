@@ -7,33 +7,10 @@ const HomePage: React.FC = () => {
   const [tasks, setTasks] = useState<any[]>([]);
   const [filteredTasks, setFilteredTasks] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [userName, setUserName] = useState<string | null>(null);
+
   const userId = localStorage.getItem('userId');
+  const userName = localStorage.getItem('userName');
 
-  // Fonction pour récupérer les informations de l'utilisateur connecté
-  const fetchUserInfo = async () => {
-    try {
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-        console.error('Aucun token trouvé, redirection vers la page de connexion.');
-        return;
-      }
-
-      const response = await axios.get('http://localhost:3000/auth/verify', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200 && response.data.user && response.data.user.nom) {
-        setUserName(response.data.user.nom); // Récupérer le nom de l'utilisateur
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des informations de l\'utilisateur:', error);
-      alert('Impossible de récupérer les informations de l\'utilisateur. Veuillez vous reconnecter.');
-    }
-  };
 
   const fetchTasks = async () => {
     try {
@@ -47,7 +24,6 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     fetchTasks();
-    fetchUserInfo(); // Récupérer les informations de l'utilisateur à chaque chargement de la page
   }, []);
 
   useEffect(() => {

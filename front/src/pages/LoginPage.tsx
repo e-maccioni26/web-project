@@ -29,6 +29,7 @@ const LoginPage: React.FC = () => {
         },
       });
       localStorage.setItem('userId', verifyResponse.data.user.id);
+      localStorage.setItem('userName', verifyResponse.data.user.nom);
 
       // Si la vérification est réussie, rediriger l'utilisateur vers la page d'accueil
       if (verifyResponse.status === 200) {
