@@ -72,35 +72,62 @@ L'application est également axée sur la collaboration, offrant des fonctionnal
 
 ---
 
-README : Comment Lancer le Projet 🚀
-Prérequis
-Avant de lancer le projet, assurez-vous d’avoir installé les éléments suivants :
+## 🛠 Prérequis
 
-Node.js (18+ recommandé)
-Docker et Docker Compose pour la base de données
-Git (pour cloner le projet si nécessaire)
-Étape 1 : Cloner le dépôt
-Si vous n'avez pas encore le projet localement, clonez-le avec la commande suivante :
+Assurez-vous d'avoir les outils suivants installés sur votre machine :
 
+- **Node.js** (v18+ recommandé)
+- **Docker** et **Docker Compose** pour la base de données
+- **Git** pour cloner le projet
+
+---
+
+## 📦 Installation et Lancement du Projet
+
+### 1️⃣ Cloner le dépôt
+
+```bash
 git clone https://github.com/votre-utilisateur/votre-repo.git
 cd votre-repo
-Étape 2 : Lancer la base de données avec Docker
-Depuis la racine du projet, lancez la base de données PostgreSQL avec la commande :
+```
 
+---
+
+### 2️⃣ Lancer la base de données avec Docker
+
+Dans la racine du projet, exécutez la commande suivante :
+
+```bash
 docker-compose up -d
-Vérifiez que les conteneurs fonctionnent :
+```
 
+Vous pouvez vérifier que les conteneurs sont bien démarrés avec :
+
+```bash
 docker ps
-Étape 3 : Configurer et Lancer le Backend
+```
+
+---
+
+### 3️⃣ Configurer et Lancer le Backend
+
+#### 🔧 Configuration
+
 Accédez au dossier backend :
 
+```bash
 cd back
-Installez les dépendances :
+```
 
+Installez les dépendances nécessaires :
+
+```bash
 npm install
-Configurez l’environnement :
-Si le fichier .env n'existe pas, créez-le dans le dossier back avec les valeurs par défaut suivantes :
+```
 
+Créez un fichier `.env` dans le dossier `back` si ce n'est pas déjà fait, avec les valeurs suivantes :
+
+```env
 DB_NAME=gestion_taches
 DB_USER=admin_user
 DB_PASSWORD=secure_password
@@ -110,40 +137,81 @@ DB_DIALECT=postgres
 SALT=default_salt
 CRYPTO_KEY=default_crypto_key_12345
 JWT_SECRET=default_jwt_secret_key
-Lancez le serveur en mode développement :
+```
 
+#### 🚀 Lancement du Serveur Backend
+
+Pour lancer le serveur en mode développement :
+
+```bash
 npm run dev
-(Optionnel) Pour le mode production :
+```
 
+Pour un environnement de production :
+
+```bash
 npm run build
 npm start
-Étape 4 : Configurer et Lancer le Frontend
+```
+
+---
+
+### 4️⃣ Configurer et Lancer le Frontend
+
 Accédez au dossier frontend :
 
+```bash
 cd ../front
-Installez les dépendances :
+```
 
+Installez les dépendances nécessaires :
+
+```bash
 npm install
+```
+
 Lancez le serveur en mode développement :
 
+```bash
 npm run dev
-L'application sera accessible sur http://localhost:5173.
+```
 
-(Optionnel) Pour construire et prévisualiser le frontend en production :
+L'application sera accessible sur [http://localhost:5173](http://localhost:5173).
 
+Pour le mode production :
+
+```bash
 npm run build
 npm run preview
-Étape 5 : Accéder à pgAdmin (facultatif)
-Rendez-vous sur http://localhost:5050.
-Connectez-vous avec les identifiants par défaut :
-Email : admin@admin.com
-Mot de passe : admin
-Ajoutez une connexion PostgreSQL avec :
-Host : postgres
-Port : 5432
-Database : gestion_taches
-Username : admin_user
-Password : secure_password
+```
+
+---
+
+### 5️⃣ Accéder à pgAdmin (Facultatif)
+
+Vous pouvez gérer votre base de données via pgAdmin :
+
+1. Rendez-vous sur [http://localhost:5050](http://localhost:5050).
+2. Connectez-vous avec :
+   - **Email** : `admin@admin.com`
+   - **Mot de passe** : `admin`
+3. Ajoutez une connexion PostgreSQL avec les paramètres suivants :
+   - **Host** : `postgres`
+   - **Port** : `5432`
+   - **Database** : `gestion_taches`
+   - **Username** : `admin_user`
+   - **Password** : `secure_password`
+
+---
+
+## ❓ Résolution des Problèmes
+
+- **Erreur de connexion à la base de données** : Vérifiez que Docker est bien démarré et que les ports sont correctement configurés.
+- **Problèmes TypeScript** : Assurez-vous d’avoir installé toutes les dépendances dans les dossiers `back` et `front`.
+
+---
+
+✨ **Vous êtes prêt à utiliser l'application et à collaborer efficacement !** ✨
 
 
 ## Auteur
