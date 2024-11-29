@@ -66,7 +66,7 @@ const HomePage: React.FC = () => {
     <div className="home-page">
       <h1>Bienvenue <span className='user'>{userName ? userName : "Utilisateur"}</span></h1>
       <div className='div'>
-        <Link to="/add-task" className="add-task-button">Ajouter une nouvelle tâche</Link>
+        {/* <Link to="/add-task" className="add-task-button">Ajouter une nouvelle tâche</Link> */}
         <div>
           <label>Faire une recherche :</label>
           <input

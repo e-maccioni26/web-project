@@ -151,6 +151,7 @@ const ProjectDetailPage: React.FC = () => {
                     id={task.id.toString()}
                     className="task-item"
                     draggable
+                    style={{ padding: '15px' }}
                     onDragStart={(e) => e.dataTransfer.setData('text/plain', task.id.toString())}
                   >
                     <div className="tags-container">
@@ -170,14 +171,16 @@ const ProjectDetailPage: React.FC = () => {
                       ))}
                     </div>
                     <h2>{task.titre}</h2>
+                    <p>Description : <span style={{fontWeight: 600}}>{task.description}</span></p>
+                    <p>Priorité : <span style={{fontWeight: 600}}>{task.priorite}</span></p>
 
                     <Link
                       to={`/tasks/${task.id}/${projectId}`}
                       key={project.id}
+                      style={{backgroundColor: 'white', color: 'black', padding: '10px', borderRadius: '5px', border: '1px solid black', textDecoration: 'none'}}
                     >
                       Détail
                     </Link>
-
 
                   </div>
                 ))}
