@@ -48,13 +48,15 @@
     display: inline-block;
     margin-top: 20px;
     text-decoration: none;
-    color: #ba68c8;
+    color: rgb(70, 70, 70);
+    background-color: rgb(247, 247, 247);
     font-weight: bold;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
     transition: color 0.3s;
 }
 
 .back-link:hover {
-    color: #e1bee7;
+    color: #308276;
 }
 
 /* Style de base du bouton */

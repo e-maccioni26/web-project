@@ -38,7 +38,9 @@
 .add-task-button{
     background-color: white;
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+    font-weight: 600;
 }
 
 .task-card {
