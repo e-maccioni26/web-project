@@ -11,12 +11,13 @@ interface Project {
 
 const ProjectPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     // Récupérer les projets depuis l'API
     const fetchProjects = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/projects');
+        const response = await axios.get(`http://localhost:3000/users/${userId}/projects`);
         setProjects(response.data);
       } catch (error) {
         console.error('Erreur lors du chargement des projets:', error);

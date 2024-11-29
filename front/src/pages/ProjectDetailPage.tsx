@@ -41,7 +41,7 @@ const ProjectDetailPage: React.FC = () => {
       try {
         const response = await axios.get(`http://localhost:3000/taches?project_id=${projectId}`);
         const tasks = response.data;
-    
+
         const tasksWithTags = await Promise.all(tasks.map(async (task: any) => {
           try {
             const tagsResponse = await axios.get(`http://localhost:3000/taches/${task.id}/tags`);
@@ -51,7 +51,6 @@ const ProjectDetailPage: React.FC = () => {
             return { ...task, tags: [] };
           }
         }));
-        console.log(tasksWithTags)
         setTasks(tasksWithTags);
       } catch (error) {
         console.error('Erreur lors du chargement des tâches :', error);

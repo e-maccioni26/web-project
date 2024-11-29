@@ -7,6 +7,7 @@ const AddProjectPage: React.FC = () => {
     const [projectName, setProjectName] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
     const navigate = useNavigate();
+    const userId = localStorage.getItem('userId');
 
     const handleCreateProject = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,6 +20,9 @@ const AddProjectPage: React.FC = () => {
             };
 
             const projectResponse = await axios.post('http://localhost:3000/projects', newProject);
+            await axios.post(`http://localhost:3000/projects/${projectResponse.data.id}/users`, {
+                users: [userId],
+            });
 
             navigate(`/projects/${projectResponse.data.id}`);
         } catch (error) {
