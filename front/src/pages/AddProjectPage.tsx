@@ -6,7 +6,6 @@ import '../styles/AddProjectPage.css';
 const AddProjectPage: React.FC = () => {
     const [projectName, setProjectName] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
-    const [projectTag, setProjectTag] = useState(''); // Nouveau champ pour le tag du projet
     const navigate = useNavigate();
 
     const handleCreateProject = async (e: React.FormEvent) => {
@@ -20,22 +19,8 @@ const AddProjectPage: React.FC = () => {
             };
 
             const projectResponse = await axios.post('http://localhost:3000/projects', newProject);
-            const projectId = projectResponse.data.id;
 
-            // Création du tag associé au projet
-            if (projectTag) {
-                const newTag = {
-                    titre: projectTag,
-                    color: 'default', // Remplacez par une valeur souhaitée ou ajoutez une logique pour définir la couleur
-                    project_id: projectId,
-                };
-
-                await axios.post('http://localhost:3000/tags', newTag);
-            }
-
-            alert('Projet créé avec succès');
-            // Rediriger vers la page des projets après la création du projet
-            navigate('/projects');
+            navigate(`/projects/${projectResponse.data.id}`);
         } catch (error) {
             console.error('Erreur lors de la création du projet :', error);
             alert('Erreur lors de la création du projet. Veuillez réessayer.');
@@ -64,16 +49,6 @@ const AddProjectPage: React.FC = () => {
                         onChange={(e) => setProjectDescription(e.target.value)}
                         required
                     ></textarea>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="projectTag">Tag du Projet</label>
-                    <input
-                        type="text"
-                        id="projectTag"
-                        value={projectTag}
-                        onChange={(e) => setProjectTag(e.target.value)}
-                        placeholder="Entrez un tag pour le projet (ex: v1, front)"
-                    />
                 </div>
                 <button type="submit" className="create-project-button">
                     Créer le Projet

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { FaPlusCircle } from 'react-icons/fa';
 import {
   DndContext,
   closestCenter,
@@ -35,15 +36,27 @@ const ProjectDetailPage: React.FC = () => {
     };
 
     // Récupérer les tâches du projet depuis l'API
+
     const fetchTasks = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/taches?project_id=${projectId}`);
-        setTasks(response.data);
+        const tasks = response.data;
+    
+        const tasksWithTags = await Promise.all(tasks.map(async (task: any) => {
+          try {
+            const tagsResponse = await axios.get(`http://localhost:3000/taches/${task.id}/tags`);
+            return { ...task, tags: tagsResponse.data };
+          } catch (error) {
+            console.error(`Erreur lors du chargement des tags pour la tâche ${task.id}:`, error);
+            return { ...task, tags: [] };
+          }
+        }));
+        console.log(tasksWithTags)
+        setTasks(tasksWithTags);
       } catch (error) {
         console.error('Erreur lors du chargement des tâches :', error);
       }
     };
-
     fetchProject();
     fetchTasks();
   }, [projectId]);
@@ -103,6 +116,18 @@ const ProjectDetailPage: React.FC = () => {
         Configurer le Projet
       </button>
       <h1>Projet {project.nom}</h1>
+      <div className="link-container">
+
+        <Link to={`/add-task/${project.id}`} key={project.id} className="back-link">
+          <FaPlusCircle className="nav-icon" />
+          Add task
+        </Link>
+        <Link to={`/add-tag/${project.id}`} key={project.id} className="back-link">
+          <FaPlusCircle className="nav-icon" />
+          Add Tag
+        </Link>
+        <Link to="/projects" className="back-link">Retour aux projets</Link>
+    </div>
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <div className="task-columns">
           {['à faire', 'en cours', 'terminée'].map((status) => (
@@ -129,7 +154,32 @@ const ProjectDetailPage: React.FC = () => {
                     draggable
                     onDragStart={(e) => e.dataTransfer.setData('text/plain', task.id.toString())}
                   >
-                    {task.titre}
+                    <div className="tags-container">
+                      {task.tags && task.tags.map((tag: any) => (
+                        <span
+                        key={tag.id}
+                          className="tag"
+                          style={{
+                            backgroundColor: tag.color,
+                            width: '20px',
+                            height: '20px',
+                            borderRadius: '3px', // Pour rendre le carré arrondi
+                            display: 'inline-block',
+                            marginRight: '5px',
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <h2>{task.titre}</h2>
+
+                    <Link
+                      to={`/tasks/${task.id}/${projectId}`}
+                      key={project.id}
+                    >
+                      Détail
+                    </Link>
+
+
                   </div>
                 ))}
               </div>
@@ -137,7 +187,7 @@ const ProjectDetailPage: React.FC = () => {
           ))}
         </div>
       </DndContext>
-      <Link to="/projects" className="back-link">Retour aux projets</Link>
+
     </div>
   );
 };

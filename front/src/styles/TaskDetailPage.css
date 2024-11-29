@@ -56,3 +56,32 @@
 .back-link:hover {
     color: #e1bee7;
 }
+
+/* Style de base du bouton */
+.button-delete {
+    background-color: #e74c3c; /* Rouge vif */
+    color: white; /* Texte en blanc */
+    border: none;
+    border-radius: 5px; /* Coins légèrement arrondis */
+    padding: 10px 20px; /* Espacement interne du bouton */
+    font-size: 16px; /* Taille de la police */
+    cursor: pointer; /* Curseur en forme de main lorsqu'on survole */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Animation douce */
+  }
+  
+  /* Effet au survol */
+  .button-delete:hover {
+    background-color: #c0392b; /* Changement de couleur au survol */
+    transform: scale(1.05); /* Légère agrandissement au survol */
+  }
+  
+  /* Effet au clic */
+  .button-delete:active {
+    transform: scale(0.98); /* Réduction au clic pour donner un effet de pression */
+  }
+  
+  /* Option pour désactiver le bouton */
+  .button-delete:disabled {
+    background-color: #bdc3c7; /* Gris clair quand désactivé */
+    cursor: not-allowed; /* Curseur en forme de croix pour signaler qu'il est désactivé */
+  }

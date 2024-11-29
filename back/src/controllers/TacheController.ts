@@ -86,11 +86,6 @@ class TacheController {
   }
 
   async getUsers(req: Request, res: Response) {
-    const { users } = req.body
-    if (!isStringArray(users)) {
-      res.status(400).json({ error: "users must be list of string ids" });
-      return
-    }
     try {
       const users = await TacheService.getUsers(Number(req.params.id));
       res.status(200).json(users.map(user => Security.encryptUser(user)));

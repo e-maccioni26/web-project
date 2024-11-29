@@ -61,7 +61,7 @@ class TacheService {
     const tache = await TacheRepository.findTacheById(id);
     if (!tache) throw new Error('Tache introuvable');
     const userInTache = await UserTachesRepository.isUserInTache(id, usersIds);
-    if(userInTache) throw new Error('Utilisateur déja présent dans le projet');
+    if(userInTache) throw new Error('Utilisateur déja présent dans la tâche');
     return await UserTachesRepository.addUsers(id, usersIds);
   }
 
@@ -69,7 +69,7 @@ class TacheService {
     const tache = await TacheRepository.findTacheById(id);
     if (!tache) throw new Error('Tache introuvable');
     const userInTache = await UserTachesRepository.isUserInTache(id, usersIds);
-    if (!userInTache) throw new Error('Utilisateur absent du projet');
+    if (!userInTache) throw new Error('Utilisateur absent de la têche');
     return await UserTachesRepository.removeUsers(id, usersIds);
   }
 

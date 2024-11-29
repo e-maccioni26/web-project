@@ -20,7 +20,7 @@ class UserTacheRepository {
 
   async getTacheUsers(id: number) {
     const taches = await UsersTaches.findAll({
-      where: {UserId: id},
+      where: {TacheId: id},
       include: [{
         model: User
       }],

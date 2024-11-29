@@ -111,6 +111,24 @@ ul {
     flex-direction: column;
 }
 
+.tag-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  .tag-info p {
+    margin: 0;
+    font-weight: bold;
+  }
+
 .user-info p {
     margin: 5px 0;
     font-size: 16px;
