@@ -134,7 +134,7 @@ const ConfigTacheTagsPage: React.FC = () => {
 
     return (
         <div className="config-project-page">
-            <h1>Affectation d'un utilisateur à : {tacheName}</h1>
+            <h1>Affectation d'un tag à : {tacheName}</h1>
             <div className="users-list">
                 <h2>Utilisateurs affectés à la tâche</h2>
                 <div className="project-users">
