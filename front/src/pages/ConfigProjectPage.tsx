@@ -71,8 +71,6 @@ const ConfigProjectPage: React.FC = () => {
                 users: usersIds,
             });
 
-            alert('Utilisateur ajouté avec succès');
-
             const response = await axios.get(`http://localhost:3000/projects/${projectId}/users`);
             const users = response.data.filter((user: any) => user && user.nom && user.email && user.mot_de_passe);
             setProjectUsers(users);
@@ -100,8 +98,6 @@ const ConfigProjectPage: React.FC = () => {
                     'Content-Type': 'application/json',
                 },
             });
-
-            alert('Utilisateur supprimé avec succès');
 
             // Rafraîchir la liste des utilisateurs du projet
             const response = await axios.get(`http://localhost:3000/projects/${projectId}/users`);
