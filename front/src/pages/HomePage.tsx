@@ -8,6 +8,7 @@ const HomePage: React.FC = () => {
   const [filteredTasks, setFilteredTasks] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [userName, setUserName] = useState<string | null>(null);
+  const userId = localStorage.getItem('userId');
 
   // Fonction pour récupérer les informations de l'utilisateur connecté
   const fetchUserInfo = async () => {
@@ -36,7 +37,7 @@ const HomePage: React.FC = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/taches');
+      const response = await axios.get(`http://localhost:3000/users/${userId}/taches`);
       setTasks(response.data);
       setFilteredTasks(response.data); 
     } catch (error) {
@@ -65,7 +66,7 @@ const HomePage: React.FC = () => {
     <div className="home-page">
       <h1>Bienvenue <span className='user'>{userName ? userName : "Utilisateur"}</span></h1>
       <div className='div'>
-        <Link to="/add-task" className="add-task-button">Ajouter une nouvelle tâche</Link>
+        {/* <Link to="/add-task" className="add-task-button">Ajouter une nouvelle tâche</Link> */}
         <div>
           <label>Faire une recherche :</label>
           <input

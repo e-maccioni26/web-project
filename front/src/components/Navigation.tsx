@@ -13,6 +13,7 @@ const Navigation: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const navigate = useNavigate();
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     // Vérifier si l'utilisateur est connecté
@@ -39,7 +40,7 @@ const Navigation: React.FC = () => {
     // Récupérer les projets de l'utilisateur
     const fetchProjects = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/projects');
+        const response = await axios.get(`http://localhost:3000/users/${userId}/projects`);
         setProjects(response.data);
       } catch (error) {
         console.error('Erreur lors du chargement des projets:', error);
@@ -79,10 +80,10 @@ const Navigation: React.FC = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/add-task">
+          {/* <NavLink to="/add-task">
             <FaPlusCircle className="nav-icon" />
             Add task
-          </NavLink>
+          </NavLink> */}
         </li>
       </ul>
       {isProjectPage && projects.length > 0 && (

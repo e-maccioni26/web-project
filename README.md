@@ -49,7 +49,18 @@ L'application est également axée sur la collaboration, offrant des fonctionnal
 - **Collaboration en temps réel** :  
   - Les utilisateurs peuvent travailler simultanément sur des tâches partagées.
   - Les modifications sont mises à jour instantanément pour tous les participants.
-
+---
+## SETUP
+### Environement
+DB_NAME=mydb
+DB_USER=myuser
+DB_PASSWORD=password123
+DB_HOST=localhost
+DB_PORT=6000
+DB_DIALECT=postgres
+SALT=un_salt
+CRYPTO_KEY=4mWu1hj1/pF8xlYuvlKlcNuyutKzfjPZnYWUbSPSuA4=
+JWT_SECRET=secret_key
 ---
 
 ## Technologies utilisées 🧑🏽‍💻
@@ -218,4 +229,3 @@ Vous pouvez gérer votre base de données via pgAdmin :
 Développé par [Groupe 2 / Maccioni Elone, Millon Felix, Ian Galmiche, Ilyès Boulkrinat].  
 
   
-

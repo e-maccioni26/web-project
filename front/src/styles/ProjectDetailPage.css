@@ -62,12 +62,10 @@
     display: inline-block;
     margin-top: 20px;
     text-decoration: none;
-    color: #00bcd4;
+    color: black;
+    background-color: white;
     font-weight: bold;
-}
-
-.back-link:hover {
-    text-decoration: underline;
+    
 }
 
 .config-button {

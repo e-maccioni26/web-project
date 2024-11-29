@@ -1,6 +1,9 @@
 import TacheRepository from '../repositories/TacheRepository';
 import TacheTagRepository from '../repositories/TacheTagRepository';
 import UserTachesRepository from '../repositories/UserTachesRepository';
+import UserService from './UserService';
+import Notifyer from "../config/notify"
+
 class TacheService {
   async createTache(data: any) {
     return await TacheRepository.createTache(data);
@@ -60,7 +63,22 @@ class TacheService {
   async addUsers(id: number, usersIds: number[]) {
     const tache = await TacheRepository.findTacheById(id);
     if (!tache) throw new Error('Tache introuvable');
+    const content = `${ JSON.stringify(tache.dataValues, null, 2)}`
+    const subject = `Affectation à ${tache.titre}`
     const userInTache = await UserTachesRepository.isUserInTache(id, usersIds);
+    usersIds.forEach(async (userId) => {
+      const user = await UserService.getUserById(userId)
+      const url = await Notifyer.send(
+        user.email,
+        content,
+        subject
+      )
+      console.log(url)
+    });
+
+      
+
+    
     if(userInTache) throw new Error('Utilisateur déja présent dans la tâche');
     return await UserTachesRepository.addUsers(id, usersIds);
   }
