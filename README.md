@@ -49,18 +49,7 @@ L'application est également axée sur la collaboration, offrant des fonctionnal
 - **Collaboration en temps réel** :  
   - Les utilisateurs peuvent travailler simultanément sur des tâches partagées.
   - Les modifications sont mises à jour instantanément pour tous les participants.
----
-## SETUP
-### Environement
-DB_NAME=mydb
-DB_USER=myuser
-DB_PASSWORD=password123
-DB_HOST=localhost
-DB_PORT=6000
-DB_DIALECT=postgres
-SALT=un_salt
-CRYPTO_KEY=4mWu1hj1/pF8xlYuvlKlcNuyutKzfjPZnYWUbSPSuA4=
-JWT_SECRET=secret_key
+  
 ---
 
 ## Technologies utilisées 🧑🏽‍💻
@@ -139,15 +128,15 @@ npm install
 Créez un fichier `.env` dans le dossier `back` si ce n'est pas déjà fait, avec les valeurs suivantes :
 
 ```env
-DB_NAME=gestion_taches
-DB_USER=admin_user
-DB_PASSWORD=secure_password
+DB_NAME=mydb
+DB_USER=myuser
+DB_PASSWORD=password123
 DB_HOST=localhost
 DB_PORT=6000
 DB_DIALECT=postgres
-SALT=default_salt
-CRYPTO_KEY=default_crypto_key_12345
-JWT_SECRET=default_jwt_secret_key
+SALT=un_salt
+CRYPTO_KEY=4mWu1hj1/pF8xlYuvlKlcNuyutKzfjPZnYWUbSPSuA4=
+JWT_SECRET=secret_key
 ```
 
 #### 🚀 Lancement du Serveur Backend
